@@ -119,3 +119,63 @@
     flex-direction: column;
   }
 }
+
+.blocoLogin {
+  background-color: #E2E2E2;
+  padding: 50px;
+  margin-top: 30px;
+  border-radius: 20px;
+}
+
+.blocoImovel {
+  background-color: #E2E2E2;
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 20px;
+}
+
+.fotoImovel img{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.btnMultiplicar{
+  background-color: #DFA132;
+  border-color: #DFA132;
+}
+
+.btnMultiplicar:hover {
+  color: #fff;
+  background-color: #cf9530;
+  border-color: #cf9530;
+}
+
+.logoMarca img{
+  width: 60px;
+}
+
+.cidade{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cidade span{
+  font-size: 12px;
+  font-weight:300;
+}
+
+.endereco{
+  font-size: 12px;
+  font-weight:300;
+}
+
+.data{
+  font-size: 16px;
+  font-weight:300;
+}
+
+.preco{
+  font-size: 20px;
+  font-weight:bold;
+
+}
