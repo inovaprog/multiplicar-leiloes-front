@@ -32,7 +32,7 @@ export default function IndexPage({ imovel, name }) {
     );
 }
 
-export async function getServerSideProps(query: any) {
+export async function getServerSideProps({query}) {
     //const token = query.token;
     //const id = query.id;
     //const urlUser = process.env.URL + "/getUser";

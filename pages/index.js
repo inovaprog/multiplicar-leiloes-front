@@ -29,7 +29,7 @@ export default function IndexPage({ imoveis , name}) {
     );
 }
 
-export async function getServerSideProps(query: any) {
+export async function getServerSideProps({query}) {
     //const token = query.token;
     //const urlUser = process.env.URL + "/getUser";
     //const resUser = await fetch(url,
