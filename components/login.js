@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css"
 
 export default function BlocoLogin() {
 
-    const login = async (event: any) => {
+    const login = async (event) => {
         event.preventDefault();
         var email = event.target.email.value;
         var password = event.target.password.value;
