@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
-import FormularioImovel from "../../components/formulario";
+import FormularioUsuario from "../../components/formulariousuario";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
 
-export default function EditarImovel({imovel}) {
+export default function EditarImovel({usuario}) {
     return (
         <div>
             <Head>
@@ -18,7 +18,7 @@ export default function EditarImovel({imovel}) {
             <Container>
                 <Row>
                     <Col>
-                        <FormularioImovel imovel={imovel} />
+                        <FormularioUsuario usuario={usuario} />
                     </Col>
                 </Row>
             </Container>
@@ -26,7 +26,7 @@ export default function EditarImovel({imovel}) {
     );
 }
 
-export async function getServerSideProps(query: any) {
+export async function getServerSideProps({query}) {
     //const token = query.token;
     //const url = process.env.URL + "/admin/imoveis/";
     //const res = await fetch(url,
@@ -40,23 +40,17 @@ export async function getServerSideProps(query: any) {
 
     //var data = await res.json()
     //var imoveis = data.data
-    var imovel = {
+    var usuario = {
         id: 1,
-        nome: "Imóvel 1",
-        endereco: "Rua 1",
-        bairro: "Bairro 1",
-        cidade: "Cidade 1",
-        estado: "MG",
-        rua: "Rua 1",
-        valor1: 1000,
-        valor2: 2000,
-        data1: "01/01/2018",
-        data2: "01/01/2018",
-        tipo: "Tipo 1"
+        nome: "Joao",
+        email: "joao@joao.com",
+        chave: 12356,
+        contador: 5,
+        imoveis: ['jfdsfs', 'fdsfdsfds', 'fdfs']
     };
 
 
     return {
-        props: { imovel },
+        props: { usuario },
     }
 }

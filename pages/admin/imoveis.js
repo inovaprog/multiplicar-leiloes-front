@@ -26,7 +26,7 @@ export default function LoginPage({imoveis}) {
     );
 }
 
-export async function getServerSideProps(query: any) {
+export async function getServerSideProps({query}) {
     //const token = query.token;
     //const url = process.env.URL + "/admin/imoveis/";
     //const res = await fetch(url,
