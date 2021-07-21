@@ -33,7 +33,7 @@ export default function FormularioUsuario({ usuario }) {
                     <Row>
                         <Col>
                             <center>
-                                <Button className={styles.btnMultiplicar} style={{ margin: 20 }}>Salvar</Button>
+                                <Button type='submit' className={styles.btnMultiplicar} style={{ margin: 20 }}>Salvar</Button>
                             </center>
                         </Col>
                     </Row>

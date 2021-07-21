@@ -27,51 +27,20 @@ export default function LoginPage({imoveis}) {
 }
 
 export async function getServerSideProps({query}) {
-    //const token = query.token;
-    //const url = process.env.URL + "/admin/imoveis/";
-    //const res = await fetch(url,
-    //     {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": `Bearer ${token}`
-    //         }
-    //     });
+    const token = query.token;
+    const url = process.env.URL + "/admin/get_imoveis";
+    const res = await fetch(url,
+         {
+             method: "GET",
+             headers: {
+                 "Content-Type": "application/json",
+                 "Authorization": `Bearer ${token}`
+         }
+         });
 
-    //var data = await res.json()
-    //var imoveis = data.data
-    var imoveis = [
-        {
-            id: 1,
-            nome: "Imóvel 1",
-            endereco: "Rua 1",
-            bairro: "Bairro 1",
-            cidade: "Cidade 1",
-            estado: "MG",
-            rua: "Rua 1",
-            valor1: 1000,
-            valor2: 2000,
-            data1: "01/01/2018",
-            data2: "01/01/2018",
-            tipo: "Tipo 1"
-        },
-        {
-            id: 2,
-            nome: "Imóvel 2",
-            endereco: "Rua 2",
-            bairro: "Bairro 2",
-            cidade: "Cidade 2",
-            estado: "MG",
-            rua: "Rua 2",
-            valor1: 1000,
-            valor2: 2000,
-            data1: "01/01/2018",
-            data2: "01/01/2018",
-            tipo: "Tipo 2"
-        }
-    ];
-
-
+    var data = await res.json()
+    var imoveis = data.data
+    
     return {
         props: { imoveis },
     }

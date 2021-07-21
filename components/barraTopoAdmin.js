@@ -15,8 +15,8 @@ export default function BarraSup({ nome }) {
                             <Nav className="me-auto">
                             </Nav>
                             <Nav style={{ paddingRight: 50, color: "white" }}>
-                                <Nav.Link href="#">Clientes</Nav.Link>
-                                <Nav.Link href="#">Imóveis</Nav.Link>
+                                <Nav.Link href="/admin/usuarios">Clientes</Nav.Link>
+                                <Nav.Link href="/admin/imoveis">Imóveis</Nav.Link>
                             </Nav>
                             <Nav>
                                 <Button className={styles.btnMultiplicar} type="submit" block>Login</Button>

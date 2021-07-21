@@ -12,8 +12,9 @@ export default function Planilha({ imoveis, usuarios }) {
                     <div className={styles.topoTabela}>
                         <Row>
                             <Col xs={2}>ID</Col>
-                            <Col xs={6}>Endereço</Col>
-                            <Col xs={2}>Valor</Col>
+                            <Col xs={4}>Endereço</Col>
+                            <Col xs={2}>Valor 1</Col>
+                            <Col xs={2}>Valor 2</Col>
                             <Col xs={2}>Editar</Col>
                         </Row>
                     </div>
@@ -21,10 +22,11 @@ export default function Planilha({ imoveis, usuarios }) {
                         <div className={styles.linhaImovel}>
                             <Row>
                                 <Col xs={2}>{imovel.id}</Col>
-                                <Col xs={6}>{imovel.endereco} - {imovel.cidade}/{imovel.estado}</Col>
-                                <Col xs={2}>{imovel.valor1}</Col>
+                                <Col xs={4}>{imovel.rua} - {imovel.cidade}/{imovel.estado}</Col>
+                                <Col xs={2}>{imovel.valor1.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Col>
+                                <Col xs={2}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) : ''}</Col>
                                 <Col xs={2}>
-                                    <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/imoveis/${imovel.id}`)}>Detalhes
+                                    <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/admin/editar_imovel?id=${imovel.id}`)}>Detalhes
                                     </Button>
                                 </Col>
                             </Row>
@@ -42,9 +44,9 @@ export default function Planilha({ imoveis, usuarios }) {
 
                     <div className={styles.topoTabela}>
                         <Row>
-                            <Col xs={2}>ID</Col>
+                            <Col xs={1}>ID</Col>
                             <Col xs={3}>Nome</Col>
-                            <Col xs={3}>Email</Col>
+                            <Col xs={4}>Email</Col>
                             <Col xs={2}>Contador</Col>
                             <Col xs={2}>Editar</Col>
                         </Row>
@@ -52,12 +54,12 @@ export default function Planilha({ imoveis, usuarios }) {
                     {usuarios.map(usuario => (
                         <div className={styles.linhaImovel}>
                             <Row>
-                                <Col xs={2}>{usuario.id}</Col>
+                                <Col xs={1}>{usuario.id}</Col>
                                 <Col xs={3}>{usuario.nome}</Col>
-                                <Col xs={3}>{usuario.email}</Col>
+                                <Col xs={4}>{usuario.email}</Col>
                                 <Col xs={2}>{usuario.contador}</Col>
                                 <Col xs={2}>
-                                    <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/imoveis/${imovel.id}`)}>Detalhes
+                                    <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/admin/editar_usuario?id=${usuario.id}`)}>Detalhes
                                     </Button>
                                 </Col>
                             </Row>

@@ -12,8 +12,10 @@ export default function FormularioImovel({imovel}) {
                         <Col sm={6}>
                             <Form>
                                 <Form.Group>
+                                    <Form.Label style={{fontWeight: 'bold'}}>{`ID do Imóvel: ${imovel.id}`}</Form.Label>
+                                    <br></br>
                                     <Form.Label>Endereço</Form.Label>
-                                    <Form.Control defaultValue={imovel.endereco} name='endereco'></Form.Control>
+                                    <Form.Control defaultValue={imovel.rua} name='endereco'></Form.Control>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Tipo</Form.Label>
@@ -45,7 +47,7 @@ export default function FormularioImovel({imovel}) {
                         </Col>
                         <Col>
                             <div className={styles.imagemImovelAdmin}>
-                                <img src={'https://via.placeholder.com/600x300'} style={{ width: "100%" }}></img>
+                                <img src={imovel.urlImg} style={{ width: "100%" }}></img>
                             </div>
                         </Col>
                     </Row>

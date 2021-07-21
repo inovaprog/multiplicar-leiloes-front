@@ -27,35 +27,20 @@ export default function EditarImovel({imovel}) {
 }
 
 export async function getServerSideProps({query}) {
-    //const token = query.token;
-    //const url = process.env.URL + "/admin/imoveis/";
-    //const res = await fetch(url,
-    //     {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": `Bearer ${token}`
-    //         }
-    //     });
+    const id = query.id;
+    const token = query.token;
+    const url = process.env.URL + `/admin/get_imovel?id=${id}`;
+    const res = await fetch(url,
+   {
+             method: "GET",
+             headers: {
+                 "Content-Type": "application/json",
+                 "Authorization": `Bearer ${token}`
+             }
+         });
 
-    //var data = await res.json()
-    //var imoveis = data.data
-    var imovel = {
-        id: 1,
-        nome: "Imóvel 1",
-        endereco: "Rua 1",
-        bairro: "Bairro 1",
-        cidade: "Cidade 1",
-        estado: "MG",
-        rua: "Rua 1",
-        valor1: 1000,
-        valor2: 2000,
-        data1: "01/01/2018",
-        data2: "01/01/2018",
-        tipo: "Tipo 1"
-    };
-
-
+    var data = await res.json()
+    var imovel = data.data;
     return {
         props: { imovel },
     }

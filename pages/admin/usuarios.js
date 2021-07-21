@@ -27,39 +27,19 @@ export default function LoginPage({usuarios}) {
 }
 
 export async function getServerSideProps({query}) {
-    //const token = query.token;
-    //const url = process.env.URL + "/admin/imoveis/";
-    //const res = await fetch(url,
-    //     {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": `Bearer ${token}`
-    //         }
-    //     });
+    const token = query.token;
+    const url = process.env.URL + "/admin/get_all_users";
+    const res = await fetch(url,
+         {
+             method: "GET",
+             headers: {
+                 "Content-Type": "application/json",
+                 "Authorization": `Bearer ${token}`
+             }
+         });
 
-    //var data = await res.json()
-    //var imoveis = data.data
-    var usuarios = [
-        {
-            id: 1,
-            nome: "Joao",
-            email: "joao@joao.com",
-            chave: 12356,
-            contador: 5,
-            imoveis: []
-        },
-        {
-            id: 2,
-            nome: "Jose",
-            email: "joao@joao.com",
-            chave: 12356,
-            contador: 10,
-            imoveis: []
-        }
-    ];
-
-
+    var data = await res.json()
+    var usuarios = data.data
     return {
         props: { usuarios },
     }
