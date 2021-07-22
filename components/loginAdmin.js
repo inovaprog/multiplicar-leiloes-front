@@ -20,13 +20,15 @@ export default function BlocoLogin() {
             })
         });
         var response = await res.json();
+        console.log(response.data);
         if (response.status == 'Success') {
             window.sessionStorage.setItem('email', email);
             window.sessionStorage.setItem('password', password);
-            window.sessionStorage.setItem('token', response.data[0].IdToken);
-            Router.push(`admin/imoveis?token=${response.data[0].IdToken}&id=${response.data[1]}`);
+            window.sessionStorage.setItem('token', response.data.IdToken);
+            Router.push(`/admin/imoveis?token=${response.data.IdToken}`);
         }
         else{
+            
             console.log("erro")
         }
     };
