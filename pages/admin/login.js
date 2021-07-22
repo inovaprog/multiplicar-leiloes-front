@@ -1,7 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
-import BlocoLogin from "../../components/login";
+import BlocoLogin from "../../components/loginAdmin";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
+import { useEffect, useState } from "react";
+import { Router } from "next/router";
 
 export default function LoginPage() {
     return (

@@ -8,7 +8,7 @@ export default function BlocoLogin() {
         event.preventDefault();
         var email = event.target.email.value;
         var password = event.target.password.value;
-        var url = process.env.URL + '/users/signin'
+        var url = process.env.URL + '/admin/signin'
         var res = await fetch(url, {
             method: 'POST',
             headers: {
@@ -24,7 +24,7 @@ export default function BlocoLogin() {
             window.sessionStorage.setItem('email', email);
             window.sessionStorage.setItem('password', password);
             window.sessionStorage.setItem('token', response.data[0].IdToken);
-            Router.push(`/?token=${response.data[0].IdToken}&id=${response.data[1]}`);
+            Router.push(`admin/imoveis?token=${response.data[0].IdToken}&id=${response.data[1]}`);
         }
         else{
             console.log("erro")

@@ -8,12 +8,12 @@ export default function BlocoImovel({imovel}) {
             <div className={styles.blocoImovel} style={{marginTop:50}}>
                 <Row>
                     <center>
-                        <div className={styles.cidade}>{imovel.cidade}/{imovel.estado} <span>Bairro</span></div>
+                        <div className={styles.cidade}>{imovel.cidade}/{imovel.estado} <span>{imovel.bairro}</span></div>
                         <div className={styles.endereco}>{imovel.rua}</div>
                         <div className={styles.data}>Data: {imovel.data1}</div>
-                        <div className={styles.preco}>R$ {imovel.valor1}</div>
-                        <div className={styles.data}>Data: {imovel.data2}</div>
-                        <div className={styles.preco}>R$ {imovel.valor2}</div>
+                        <div className={styles.preco} style={imovel.valor2 ? {textDecoration: 'line-through'} : {textDecoration: 'normal'}}>{imovel.valor1.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</div>
+                        <div className={styles.data}>{imovel.data2}</div>
+                        <div className={styles.preco}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) : ''}</div>
                     </center>
                 </Row>
                 <center>
