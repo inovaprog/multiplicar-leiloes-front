@@ -12,9 +12,6 @@ export default function FormularioUsuario({ usuario }) {
         if(event.target.imoveis.value.length > 0) {
             imoveis = event.target.imoveis.value
         }
-        console.log(imoveis)
-        console.log(event.target.nome.value)
-        console.log(usuario.id)
         const response = await fetch(url,
             {
                 method: 'POST',
