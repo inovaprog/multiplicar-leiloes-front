@@ -6,21 +6,23 @@ import { useState, useEffect } from "react";
 
 export default function LoginPage({ imoveis }) {
     const [allImoveis, setImoveis] = useState(imoveis);
+
     async function trocarImoveis(event) {
+        event.preventDefault();
         var tipo = event.target.tipo.value;
         var q = event.target.q.value;
-        const url = process.env.URL + `/admin/get_imoveis?${tipo}=${q}`;
+        const url = process.env.URL + `/admin/get_imoveis?${tipo.toLowerCase()}=${q}`;
         const res = await fetch(url,
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Content-Type": "application/json"
                 }
             });
 
         var data = await res.json()
         var imoveis = data.data
+        console.log(imoveis)
         setImoveis(imoveis)
     }
 
@@ -36,6 +38,26 @@ export default function LoginPage({ imoveis }) {
             </Head>
             <BarraSup nome={null} />
             <Container>
+                <center>
+                    <Form onSubmit={trocarImoveis} style={{ padding: 25 }}>
+                        <Row>
+                            <Col sm={3}>
+                                <Form.Control required="true" name="tipo" as="select">
+                                    <option>Cidade</option>
+                                    <option>Estado</option>
+                                    <option>Bairro</option>
+                                    <option>Tipo</option>
+                                </Form.Control>
+                            </Col>
+                            <Col sm={6}>
+                                <Form.Control placeholder="Busca" name="q"></Form.Control>
+                            </Col>
+                            <Col sm={3}>
+                                <Button type="submit" bsStyle="primary">Buscar</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </center>
                 <Row>
                     <Col>
                         <Planilha imoveis={allImoveis} />
