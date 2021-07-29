@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css"
 
 export default function FormularioVenda({ usuario }) {
 
-    const editarUser = async (event) => {
+    const addVenda = async (event) => {
         event.preventDefault();
         const url = process.env.URL + '/admin/add_venda'
         const response = await fetch(url,
@@ -38,7 +38,7 @@ export default function FormularioVenda({ usuario }) {
                 <center><h3>Adicionar Usuário</h3></center>
                 <Row>
                     <Col>
-                        <Form>
+                        <Form onSubmit={addVenda}>
                             <Form.Group>
                                 <Form.Label>Imóvel</Form.Label>
                                 <Form.Control name='imovel'></Form.Control>
@@ -55,14 +55,12 @@ export default function FormularioVenda({ usuario }) {
                                 <Form.Label>Data</Form.Label>
                                 <Form.Control name='data' type="date"></Form.Control>
                             </Form.Group>
-                        </Form>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
+                            <Col>
                         <center>
-                            <Button className={styles.btnMultiplicar} style={{ margin: 20 }}>Salvar</Button>
+                            <Button className={styles.btnMultiplicar} type="submit" style={{ margin: 20 }}>Salvar</Button>
                         </center>
+                    </Col>
+                        </Form>
                     </Col>
                 </Row>
             </Container>
