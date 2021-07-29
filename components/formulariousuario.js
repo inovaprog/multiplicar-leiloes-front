@@ -5,11 +5,41 @@ import styles from "../styles/Home.module.css"
 
 export default function FormularioUsuario({ usuario }) {
 
+    const addUser = async (event) => {
+        event.preventDefault();
+        const url = process.env.URL + '/admin/add_user'
+        var imoveis = ''
+        if (event.target.imoveis.value.length > 0) {
+            imoveis = event.target.imoveis.value
+        }
+        const response = await fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: event.target.nome.value,
+                    imoveis: imoveis,
+                    email: event.target.email.value,
+                    chave: event.target.chave.value
+                })
+            }
+        );
+        const data = await response.json();
+        if (data.status == "Success") {
+            console.log('Usuario editado com sucesso');
+            console.log(data);
+            Router.push('/admin/usuarios')
+        }
+    }
+
     const editarUser = async (event) => {
         event.preventDefault();
         const url = process.env.URL + '/admin/editar_usuario'
         var imoveis = ''
-        if(event.target.imoveis.value.length > 0) {
+        if (event.target.imoveis.value.length > 0) {
             imoveis = event.target.imoveis.value
         }
         const response = await fetch(url,
@@ -27,7 +57,7 @@ export default function FormularioUsuario({ usuario }) {
             }
         );
         const data = await response.json();
-        if(data.status == "Success") {
+        if (data.status == "Success") {
             console.log('Usuario editado com sucesso');
             console.log(data);
             Router.push('/admin/usuarios')
@@ -77,7 +107,7 @@ export default function FormularioUsuario({ usuario }) {
                     <center><h3>Adicionar Usuário</h3></center>
                     <Row>
                         <Col>
-                            <Form>
+                            <Form onSubmit={addUser}>
                                 <Form.Group>
                                     <Form.Label>Nome</Form.Label>
                                     <Form.Control name='nome'></Form.Control>
@@ -88,20 +118,18 @@ export default function FormularioUsuario({ usuario }) {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Chave</Form.Label>
-                                    <Form.Control name='email'></Form.Control>
+                                    <Form.Control name='chave'></Form.Control>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Imoveis</Form.Label>
-                                    <Form.Control as="textarea" rows={3} name='email'></Form.Control>
+                                    <Form.Control as="textarea" rows={3} name='imoveis'></Form.Control>
                                 </Form.Group>
+                                <Col>
+                                    <center>
+                                        <Button className={styles.btnMultiplicar} type="submit" style={{ margin: 20 }}>Salvar</Button>
+                                    </center>
+                                </Col>
                             </Form>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <center>
-                                <Button className={styles.btnMultiplicar} style={{ margin: 20 }}>Salvar</Button>
-                            </center>
                         </Col>
                     </Row>
                 </Container>
