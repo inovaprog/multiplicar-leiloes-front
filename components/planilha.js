@@ -8,13 +8,13 @@ export default function Planilha({ imoveis, usuarios }) {
             <div>
                 <Container>
                     <center><h3>Imóveis</h3></center>
-
+                    <Button onClick={() => Router.push('/admin/adicionar_imovel')}>Adicionar Imóvel</Button>
                     <div className={styles.topoTabela}>
                         <Row>
-                            <Col xs={2}>ID</Col>
-                            <Col xs={4}>Endereço</Col>
-                            <Col xs={2}>Valor 1</Col>
-                            <Col xs={2}>Valor 2</Col>
+                            <Col xs={1}>ID</Col>
+                            <Col xs={5}>Endereço</Col>
+                            <Col xs={2}>1ª Praça</Col>
+                            <Col xs={2}>2ª Praça</Col>
                             <Col xs={2}>Editar</Col>
                         </Row>
                     </div>

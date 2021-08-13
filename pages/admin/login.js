@@ -19,9 +19,9 @@ export default function LoginPage() {
             <BarraSup nome={null} />
             <Container>
                 <Row>
-                    <Col xs={4}>
+                    <Col lg={4}>
                     </Col>
-                    <Col xs={4}>
+                    <Col lg={4}>
                         <BlocoLogin />
                     </Col>
                 </Row>
