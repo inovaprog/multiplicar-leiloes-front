@@ -1,133 +1,262 @@
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Carousel, Spinner } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
-
-const editar = ((event) => {
-    event.preventDefault()
-    var data = {
-        rua: event.target.rua.value,
-        tipo: event.target.tipo.value,
-        data1: event.target.data1.value,
-        valor1: event.target.valor1.value,
-        data2: event.target.data2.value,
-        valor2: event.target.valor2.value
-    }
-    console.log(data)
-})
+import { Imovel } from '../models/models'
+import { useEffect, useState } from 'react'
+import React from 'react'
+import Router from 'next/router'
 
 export default function FormularioImovel({ imovel }) {
-    if (imovel) {
-        return (
-            <div style={{ backgroundColor: '#E3E3E3', borderRadius: 10, marginTop: 30, padding: 20 }}>
-                <Container>
-                    <center><h3>Editar Imóvel</h3></center>
-                    <Row>
-                        <Col sm={6}>
-                            <Form onSubmit={editar}>
-                                <Form.Group>
-                                    <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${imovel.id}`}</Form.Label>
-                                    <br></br>
-                                    <Form.Label>Endereço</Form.Label>
-                                    <Form.Control defaultValue={imovel.rua} name='rua'></Form.Control>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Tipo</Form.Label>
-                                    <Form.Control defaultValue={imovel.tipo} name='tipo'></Form.Control>
-                                </Form.Group>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Data 1</Form.Label>
-                                            <Form.Control defaultValue={imovel.data1} name='data1'></Form.Control>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Label>Valor 1</Form.Label>
-                                            <Form.Control defaultValue={imovel.valor1} name='valor1'></Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Data 2</Form.Label>
-                                            <Form.Control defaultValue={imovel.data2} name='data2'></Form.Control>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Label>Valor 2</Form.Label>
-                                            <Form.Control defaultValue={imovel.valor2} name='valor2'></Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <center>
-                                        <Button className={styles.btnMultiplicar} type="submit" >Salvar</Button>
-                                        <Button className={styles.btnMultiplicar} style={{ margin: 20 }}>Trocar Imagem</Button>
-                                    </center>
-                                </Row>
-                            </Form>
-                        </Col>
-                        <Col>
-                            <div className={styles.imagemImovelAdmin}>
-                                <img src={imovel.urlImg} style={{ width: "100%" }}></img>
-                            </div>
-                        </Col>
-                    </Row>
-                    
-                </Container>
-            </div>
-        )
+    const [images, setImages] = useState([]);
+    const [carregando, setCarregando] = useState(false);
+    const [fotos, setFotos] = useState([]);
+
+    const converte2b64 = (file) => {
+        return new Promise((resolve, reject) => {
+            try {
+                var image = file
+                const reader = new FileReader()
+                reader.readAsDataURL(image)
+                reader.onloadend = () => {
+                    resolve(reader.result)
+                }
+            } catch (error) {
+                reject("error")
+            }
+        })
+    }
+
+    async function upFoto(event) {
+        var imageList = event.target.files
+        var fotos = []
+        var show = []
+        for (var image of imageList) {
+            await converte2b64(image).then((result) => { fotos.push(result.split(',')[1]) })
+            show.push(URL.createObjectURL(image))
+        }
+        setImages(show)
+        setFotos(fotos)
+    }
+
+    const removeImovel = (async (event) => {
+        setCarregando(true);
+        event.preventDefault()
+
+        var url = process.env.URL + `/admin/remove_imovel?id=${imovel.id}`
+        const token = window.sessionStorage.getItem("token");
+        var res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        var response = await res.json();
+        if (response.status == 'Success') {
+            Router.push(`/admin/`);
+        }
+        else {
+            console.log("erro")
+            setCarregando(false);
+        }
+    })
+
+
+    const addImovel = (async (event) => {
+        event.preventDefault()
+        if (!event.target.id.value) {
+            var data = {
+                estado: event.target.estado.value,
+                cidade: event.target.cidade.value,
+                bairro: event.target.bairro.value,
+                rua: event.target.rua.value,
+                valor1: event.target.valor1.value,
+                valor2: event.target.valor2.value,
+                data1: event.target.data1.value,
+                data2: event.target.data2.value,
+                tipo: event.target.tipo.value,
+                foto: fotos,
+            }
+            var url = process.env.URL + '/admin/add_imovel'
+            const token = window.sessionStorage.getItem("token");
+            var res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+        } else {
+            var data = {
+                id: event.target.id.value,
+                update: {
+                    estado: event.target.estado.value,
+                    cidade: event.target.cidade.value,
+                    bairro: event.target.bairro.value,
+                    rua: event.target.rua.value,
+                    valor1: event.target.valor1.value,
+                    valor2: event.target.valor2.value,
+                    data1: event.target.data1.value,
+                    data2: event.target.data2.value,
+                    tipo: event.target.tipo.value,
+                    foto: fotos
+                }
+            }
+            console.log(data)
+            var url = process.env.URL + '/admin/add_imovel'
+            const token = window.sessionStorage.getItem("token");
+            var res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+        }
+        var response = await res.json();
+        if (response.status == 'Success') {
+            Router.push(`/admin/`);
+        }
+        else {
+            console.log("erro")
+            setCarregando(false);
+        }
+    })
+
+
+    useEffect(() => {
+        if ('urlImg' in imovel) {
+            var imgs = imovel.urlImg.split(",");
+            setImages(imgs);
+        }
+    }, [])
+
+
+    var titulo = "Editar Imóvel"
+    if (!imovel) {
+        titulo = "Novo Imóvel"
+        var imovel = new Imovel();
+        var id_label = " ---- "
     }
     else {
-        return (
-            <div style={{ backgroundColor: '#E3E3E3', borderRadius: 10, marginTop: 30, padding: 20 }}>
-                <Container>
-                    <center><h3>Adicionar Imóvel</h3></center>
-                    <Row>
-                        <Col sm={6}>
-                            <Form>
-                                <Form.Group>
-                                    <Form.Label>Endereço</Form.Label>
-                                    <Form.Control name='endereco'></Form.Control>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>tipo</Form.Label>
-                                    <Form.Control name='tipo'></Form.Control>
-                                </Form.Group>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Data 1</Form.Label>
-                                            <Form.Control name='data1'></Form.Control>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Label>Valor 1</Form.Label>
-                                            <Form.Control name='valor1'></Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <Form.Label>Data 2</Form.Label>
-                                            <Form.Control name='data2'></Form.Control>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Form.Label>Valor 2</Form.Label>
-                                            <Form.Control name='valor2'></Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                            </Form>
-                        </Col>
-                        <Col>
-                            <div className={styles.imagemImovelAdmin}>
-                                <img src={'https://via.placeholder.com/600x300'} style={{ width: "100%" }}></img>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <center>
-                                <Button className={styles.btnMultiplicar}>Salvar</Button>
-                                <Button className={styles.btnMultiplicar} style={{ margin: 20 }}>Trocar Imagem</Button>
-                            </center>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        )
+        var id_label = imovel.id
     }
+
+    if (carregando) {
+        return (
+            <div>
+                <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center>
+            </div>
+        );
+    }
+
+    const hiddenFileInput = React.useRef(null);
+
+
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
+
+    return (
+        <div style={{ backgroundColor: '#E3E3E3', borderRadius: 10, marginTop: 30, padding: 20 }}>
+            <Container>
+                <center><h3>{titulo}</h3></center>
+                <Row>
+                    <Col sm={6}>
+                        <Form onSubmit={addImovel}>
+                            <Form.Control style={{ display: 'none' }} name='id' value={imovel.id}></Form.Control>
+                            <Form.Group>
+                                <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${id_label}`}</Form.Label>
+                                <br></br>
+                                <Form.Label>Endereço</Form.Label>
+                                <Form.Control defaultValue={imovel.rua} name='rua'></Form.Control>
+                            </Form.Group>
+                            <Row>
+                                <Col sm={4}>
+                                    <Form.Group>
+                                        <Form.Label>Bairro</Form.Label>
+                                        <Form.Control defaultValue={imovel.bairro} name='bairro'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+
+                                <Col sm={6}>
+                                    <Form.Group>
+                                        <Form.Label>Cidade</Form.Label>
+                                        <Form.Control defaultValue={imovel.cidade} name='cidade'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={2}>
+                                    <Form.Group>
+                                        <Form.Label>Estado</Form.Label>
+                                        <Form.Control defaultValue={imovel.estado} name='estado'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col sm={7}>
+                                    <Form.Group>
+                                        <Form.Label>Tipo do imóvel</Form.Label>
+                                        <Form.Control defaultValue={imovel.tipo} name='tipo'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={5}>
+                                    <Form.Group>
+                                        <Form.Label>Valor de mercado</Form.Label>
+                                        <Form.Control defaultValue={imovel.valor_mercado} name='valor_mercado'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Primeira Praça</Form.Label>
+                                        <Form.Control defaultValue={imovel.data1} name='data1'></Form.Control>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>Valor 1ª Praça</Form.Label>
+                                        <Form.Control defaultValue={imovel.valor1} name='valor1'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group>
+                                        <Form.Label>Segunda Praça</Form.Label>
+                                        <Form.Control defaultValue={imovel.data2} name='data2'></Form.Control>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>Valor 2ª Praça</Form.Label>
+                                        <Form.Control defaultValue={imovel.valor2} name='valor2'></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <center>
+                                    <Button className={styles.btnMultiplicar} type="submit" >Salvar</Button>
+                                    <Button className={styles.btnMultiplicar} style={{ margin: 20 }} onClick={handleClick}>Trocar Imagem</Button>
+                                    <input type="file" style={{ display: 'none' }} onChange={upFoto} ref={hiddenFileInput} id="file" name="file" multiple />
+                                    <Button variant='danger' style={{ margin: 20 }} onClick={removeImovel}>Excluir</Button>
+                                </center>
+                            </Row>
+                        </Form>
+                    </Col>
+                    <Col>
+                        <div className={styles.imagemImovelAdmin}>
+                            <div>
+                                <Carousel prevLabel={null} nextLabel={null}>
+                                    {images.map(i => (
+                                        <Carousel.Item>
+                                            <img
+                                                className="d-block w-100"
+                                                src={i}
+                                            />
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+
+            </Container>
+        </div>
+    )
+
 }

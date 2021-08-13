@@ -2,7 +2,6 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Head from "next/head";
 import BarraSup from "../components/barraTopo";
 import BlocoImovel from "../components/blocoImovel";
-import { Imovel } from "../models/models";
 import { useEffect, useState } from "react";
 import Router from "next/router";
 

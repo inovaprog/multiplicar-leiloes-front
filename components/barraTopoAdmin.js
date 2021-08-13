@@ -6,7 +6,7 @@ import Router from "next/router";
 export default function BarraSup({ nome }) {
     useEffect(async () => {
         if (!window.sessionStorage.getItem("token")) {
-            Router.push("/login");
+            Router.push("/admin/login");
         }
     })
 
@@ -14,7 +14,7 @@ export default function BarraSup({ nome }) {
         <div>
             <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: "#000000" }} variant="dark">
                 <Container>
-                    <Navbar.Brand className={styles.logoMarca} href="#home"><img src='/logo-centro 1.png'></img></Navbar.Brand>
+                    <Navbar.Brand className={styles.logoMarca} href="/admin/"><img src='/logo-centro 1.png'></img></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">

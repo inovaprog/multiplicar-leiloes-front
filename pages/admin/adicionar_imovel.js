@@ -3,7 +3,7 @@ import FormularioImovel from "../../components/formulario";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
 
-export default function EditarImovel(){
+export default function AdcionarImovel(){
     return (
         <div>
             <Head>

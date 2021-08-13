@@ -29,7 +29,7 @@ export default function BlocoLogin() {
             window.sessionStorage.setItem('email', email);
             window.sessionStorage.setItem('password', password);
             window.sessionStorage.setItem('token', response.data.IdToken);
-            Router.push(`/admin`);
+            Router.push(`/admin/`);
         }
         else {
             console.log("erro")
