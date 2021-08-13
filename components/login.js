@@ -1,10 +1,15 @@
-import { Col, Row, Container, Form, Button } from 'react-bootstrap';
+import { Col, Row, Container, Form, Button, Spinner } from 'react-bootstrap';
 import styles from "../styles/Home.module.css"
 import Router from "next/router"
+import { useState } from 'react'
 
 export default function BlocoLogin() {
 
+    const [carregando, setCarregando] = useState(false);
+    const [erro, setErro] = useState(false);
+
     const login = async (event) => {
+        setCarregando(true);
         event.preventDefault();
         var email = event.target.email.value;
         var password = event.target.password.value;
@@ -24,10 +29,13 @@ export default function BlocoLogin() {
             window.sessionStorage.setItem('email', email);
             window.sessionStorage.setItem('password', password);
             window.sessionStorage.setItem('token', response.data[0].IdToken);
-            Router.push(`/?token=${response.data[0].IdToken}&id=${response.data[1]}`);
+            window.sessionStorage.setItem('userId', response.data[1]);
+            Router.push(`/`);
         }
-        else{
+        else {
             console.log("erro")
+            setErro(true);
+            setCarregando(false);
         }
     };
 
@@ -58,7 +66,17 @@ export default function BlocoLogin() {
                         <center>
                             <Row>
                                 <Col xs={12} style={{ marginTop: 20 }}>
-                                    <Button className={styles.btnMultiplicar} type="submit"  block>Login</Button>
+                                    {
+                                        carregando
+                                            ? <Spinner animation='border' />
+                                            : <Button className={styles.btnMultiplicar} type="submit" block>Login</Button>
+                                    }
+                                    {
+                                        erro
+                                            ? <div className={styles.erro}>Usuário ou senha incorretos</div>
+                                            : null
+                                    }
+
                                 </Col>
                             </Row>
                         </center>

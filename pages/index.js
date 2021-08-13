@@ -1,79 +1,23 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Head from "next/head";
 import BarraSup from "../components/barraTopo";
 import BlocoImovel from "../components/blocoImovel";
 import { Imovel } from "../models/models";
+import { useEffect, useState } from "react";
+import Router from "next/router";
 
-export default function IndexPage({ imoveis, name, id }) {
+export default function IndexPage() {
+    const [carregando, setCarregando] = useState(true);
+    const [imoveis, setImoveis] = useState([]);
 
-    if (imoveis) {
-        return (   
-            <div>
-                <Head>
-                    <link
-                        rel="stylesheet"
-                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-                        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                        crossorigin="anonymous"
-                    />
-                </Head>
-                <BarraSup nome={name} id={id} />
-                <Container>
-                    <Row>
-                        {imoveis.map(imovel => (
-                            <Col key={imovel.id} md={4}>
-                                <BlocoImovel imovel={imovel} />
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div>
-                <Head>
-                    <link
-                        rel="stylesheet"
-                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-                        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-                        crossorigin="anonymous"
-                    />
-                </Head>
-                <BarraSup nome={name} />
-            </div>
-        );
-    }
-}
 
-export async function getServerSideProps({ query }) {
-    const token = query.token;
-    const idUser = query.id;
-    const urlUser = process.env.URL + `/admin/get_user?id=${idUser}`;
-    const resUser = await fetch(urlUser,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-    var dataUser = await resUser.json()
-    if (dataUser.status != "Success") {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
+    useEffect(async () => {
+        if (!window.sessionStorage.getItem("token")) {
+            Router.push("/login");
         }
-    }
-    var user = dataUser.data
-    var name = user.nome
-    var id = user.id
-    if (user['imoveis']) {
-        const url = process.env.URL + `/users/imoveis?id=${idUser}`;
+        const token = window.sessionStorage.getItem("token");
+        const userId = window.sessionStorage.getItem('userId');
+        const url = process.env.URL + `/users/imoveis?id=${userId}`;
         const res = await fetch(url,
             {
                 method: "GET",
@@ -92,12 +36,31 @@ export async function getServerSideProps({ query }) {
                 },
             }
         }
-        var imoveis = data.data
-        return {
-            props: { imoveis, name, id },
-        }
-    }
-    return {
-        props: { name },
-    }
+        setImoveis(data.data)
+        setCarregando(false)
+    }, [])
+
+    return (
+        <div>
+            <Head>
+                <link
+                    rel="stylesheet"
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+                    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+                    crossorigin="anonymous"
+                />
+            </Head>
+            <BarraSup />
+            <Container>
+                {carregando ?<center><Spinner style={{margin:50}} animation="border"></Spinner></center>  : null}
+                <Row>
+                    {imoveis.map(imovel => (
+                        <Col key={imovel.id} md={4}>
+                            <BlocoImovel imovel={imovel} />
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+        </div>
+    );
 }

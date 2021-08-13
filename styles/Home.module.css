@@ -132,6 +132,7 @@
   padding: 20px;
   margin-top: 30px;
   border-radius: 20px;
+  justify-content: space-around;
 }
 
 .fotoImovel img{
@@ -165,7 +166,7 @@
 }
 
 .endereco{
-  font-size: 12px;
+  font-size: 14px;
   font-weight:300;
 }
 
