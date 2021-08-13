@@ -103,7 +103,7 @@ export default function FormularioImovel({ imovel }) {
                 }
             }
             console.log(data)
-            var url = process.env.URL + '/admin/add_imovel'
+            var url = process.env.URL + '/admin/edit_imovel'
             const token = window.sessionStorage.getItem("token");
             var res = await fetch(url, {
                 method: 'POST',
