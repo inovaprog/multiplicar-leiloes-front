@@ -1,9 +1,11 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import FormularioUsuario from "../../components/formulariousuario";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
+import { useEffect, useState } from "react";
 
-export default function EditarImovel({usuario}) {
+export default function EditarImovel({ id }) {
+
     return (
         <div>
             <Head>
@@ -18,7 +20,7 @@ export default function EditarImovel({usuario}) {
             <Container>
                 <Row>
                     <Col>
-                        <FormularioUsuario usuario={usuario} />
+                        <FormularioUsuario u={id} />
                     </Col>
                 </Row>
             </Container>
@@ -26,23 +28,10 @@ export default function EditarImovel({usuario}) {
     );
 }
 
-export async function getServerSideProps({query}) {
-    const token = query.token;
+export async function getServerSideProps({ query }) {
     const id = query.id;
-    const url = process.env.URL + `/admin/get_user?id=${id}`;
-    const res = await fetch(url,
-         {
-             method: "GET",
-             headers: {
-                 "Content-Type": "application/json",
-                 "Authorization": `Bearer ${token}`
-             }
-         });
 
-    var data = await res.json()
-    var usuario = data.data
-    
     return {
-        props: { usuario },
+        props: { id },
     }
 }

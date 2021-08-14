@@ -37,17 +37,18 @@ export default function Planilha({ imoveis, usuarios }) {
         )
     }
     if (usuarios) {
+        console.log(usuarios)
         return (
             <div>
                 <Container>
                     <center><h3>Usuários</h3></center>
-
+                    <Button onClick={() => Router.push('/admin/adicionar_usuario')}>Adicionar Usuário</Button>
                     <div className={styles.topoTabela}>
                         <Row>
                             <Col xs={1}>ID</Col>
                             <Col xs={3}>Nome</Col>
                             <Col xs={4}>Email</Col>
-                            <Col xs={2}>Contador</Col>
+                            <Col xs={2}>Imoveis</Col>
                             <Col xs={2}>Editar</Col>
                         </Row>
                     </div>
@@ -57,7 +58,7 @@ export default function Planilha({ imoveis, usuarios }) {
                                 <Col xs={1}>{usuario.id}</Col>
                                 <Col xs={3}>{usuario.nome}</Col>
                                 <Col xs={4}>{usuario.email}</Col>
-                                <Col xs={2}>{usuario.contador}</Col>
+                                <Col xs={2}>{usuario.imoveis.length}</Col>
                                 <Col xs={2}>
                                     <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/admin/editar_usuario?id=${usuario.id}`)}>Detalhes
                                     </Button>

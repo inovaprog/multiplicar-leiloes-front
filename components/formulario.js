@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, Button, Carousel, Spinner } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
 import { Imovel } from '../models/models'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import React from 'react'
 import Router from 'next/router'
 
@@ -9,6 +9,14 @@ export default function FormularioImovel({ imovel }) {
     const [images, setImages] = useState([]);
     const [carregando, setCarregando] = useState(false);
     const [fotos, setFotos] = useState([]);
+
+    useLayoutEffect(() => {
+        console.log("teste")
+        if ('urlImg' in imovel) {
+            var imgs = imovel.urlImg.split(",");
+            setImages(imgs);
+        }
+    }, [imovel])
 
     const converte2b64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -37,10 +45,7 @@ export default function FormularioImovel({ imovel }) {
         setFotos(fotos)
     }
 
-    const removeImovel = (async (event) => {
-        setCarregando(true);
-        event.preventDefault()
-
+    const removeImovel = (async () => {
         var url = process.env.URL + `/admin/remove_imovel?id=${imovel.id}`
         const token = window.sessionStorage.getItem("token");
         var res = await fetch(url, {
@@ -52,16 +57,17 @@ export default function FormularioImovel({ imovel }) {
         });
         var response = await res.json();
         if (response.status == 'Success') {
-            Router.push(`/admin/`);
+            Router.push(`/admin/imoveis`);
         }
         else {
             console.log("erro")
-            setCarregando(false);
+            Router.push(`/admin/imoveis`);
         }
     })
 
 
     const addImovel = (async (event) => {
+        console.log(event)
         event.preventDefault()
         if (!event.target.id.value) {
             var data = {
@@ -124,20 +130,13 @@ export default function FormularioImovel({ imovel }) {
         }
     })
 
-
-    useEffect(() => {
-        if ('urlImg' in imovel) {
-            var imgs = imovel.urlImg.split(",");
-            setImages(imgs);
-        }
-    }, [])
-
-
     var titulo = "Editar Imóvel"
+    var textBotao = "Excluir"
     if (!imovel) {
         titulo = "Novo Imóvel"
         var imovel = new Imovel();
         var id_label = " ---- "
+        textBotao = "Cancelar"
     }
     else {
         var id_label = imovel.id
@@ -170,26 +169,26 @@ export default function FormularioImovel({ imovel }) {
                                 <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${id_label}`}</Form.Label>
                                 <br></br>
                                 <Form.Label>Endereço</Form.Label>
-                                <Form.Control defaultValue={imovel.rua} name='rua'></Form.Control>
+                                <Form.Control required defaultValue={imovel.rua} name='rua'></Form.Control>
                             </Form.Group>
                             <Row>
                                 <Col sm={4}>
                                     <Form.Group>
                                         <Form.Label>Bairro</Form.Label>
-                                        <Form.Control defaultValue={imovel.bairro} name='bairro'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.bairro} name='bairro'></Form.Control>
                                     </Form.Group>
                                 </Col>
 
                                 <Col sm={6}>
                                     <Form.Group>
                                         <Form.Label>Cidade</Form.Label>
-                                        <Form.Control defaultValue={imovel.cidade} name='cidade'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.cidade} name='cidade'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col sm={2}>
                                     <Form.Group>
                                         <Form.Label>Estado</Form.Label>
-                                        <Form.Control defaultValue={imovel.estado} name='estado'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.estado} name='estado'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -197,7 +196,7 @@ export default function FormularioImovel({ imovel }) {
                                 <Col sm={7}>
                                     <Form.Group>
                                         <Form.Label>Tipo do imóvel</Form.Label>
-                                        <Form.Control defaultValue={imovel.tipo} name='tipo'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.tipo} name='tipo'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col sm={5}>
@@ -211,11 +210,11 @@ export default function FormularioImovel({ imovel }) {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Primeira Praça</Form.Label>
-                                        <Form.Control defaultValue={imovel.data1} name='data1'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.data1} name='data1'></Form.Control>
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 1ª Praça</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor1} name='valor1'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.valor1} name='valor1'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -232,7 +231,7 @@ export default function FormularioImovel({ imovel }) {
                                     <Button className={styles.btnMultiplicar} type="submit" >Salvar</Button>
                                     <Button className={styles.btnMultiplicar} style={{ margin: 20 }} onClick={handleClick}>Trocar Imagem</Button>
                                     <input type="file" style={{ display: 'none' }} onChange={upFoto} ref={hiddenFileInput} id="file" name="file" multiple />
-                                    <Button variant='danger' style={{ margin: 20 }} onClick={removeImovel}>Excluir</Button>
+                                    <Button variant='danger' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) removeImovel() }} >{textBotao}</Button>
                                 </center>
                             </Row>
                         </Form>

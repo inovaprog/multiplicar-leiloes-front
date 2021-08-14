@@ -3,7 +3,7 @@ import FormularioUsuario from "../../components/formulariousuario";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
 
-export default function AdicionarUsuario({usuario}) {
+export default function AdicionarUsuario() {
     return (
         <div>
             <Head>
@@ -18,7 +18,7 @@ export default function AdicionarUsuario({usuario}) {
             <Container>
                 <Row>
                     <Col>
-                        <FormularioUsuario usuario={usuario} />
+                        <FormularioUsuario u={null} />
                     </Col>
                 </Row>
             </Container>
