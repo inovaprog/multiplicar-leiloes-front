@@ -16,7 +16,7 @@ export default function PlanilhaVendas({ vendas }) {
             "data": e.target.data.value
         }
         var url = process.env.URL + `/vendas/add_venda`
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         var res = await fetch(url, {
             method: 'POST',
             headers: {
@@ -40,7 +40,7 @@ export default function PlanilhaVendas({ vendas }) {
     const removeVenda = (async (id) => {
         setCarregando(true)
         var url = process.env.URL + `/vendas/remove?id=${id}`
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         var res = await fetch(url, {
             method: 'GET',
             headers: {

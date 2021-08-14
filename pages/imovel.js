@@ -9,7 +9,7 @@ export default function IndexPage({ id }) {
     const [carregando, setCarregando] = useState(true);
     const [images, setImages] = useState([]);
     useEffect(async () => {
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         const url = process.env.URL + `/admin/get_imovel?id=${id}`;
         const res = await fetch(url,
             {

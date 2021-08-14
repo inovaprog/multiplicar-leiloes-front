@@ -9,7 +9,7 @@ export default function LoginPage() {
     const [carregando, setCarregando] = useState(true)
 
     useEffect(async () => {
-        const token = window.sessionStorage.getItem('token')
+        const token = window.localStorage.getItem('token')
         const url = process.env.URL + "/vendas";
         const res = await fetch(url,
             {

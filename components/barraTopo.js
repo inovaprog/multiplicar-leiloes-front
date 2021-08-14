@@ -7,11 +7,11 @@ export default function BarraSup() {
     const [nome, setNome] = useState(null);
 
     useEffect(async () => {
-        if (!window.sessionStorage.getItem("token")) {
+        if (!window.localStorage.getItem("token")) {
             Router.push("/login");
         }
-        const token = window.sessionStorage.getItem("token");
-        const userId = window.sessionStorage.getItem('userId');
+        const token = window.localStorage.getItem("token");
+        const userId = window.localStorage.getItem('userId');
         const url = process.env.URL + `/admin/get_user?id=${userId}`;
         const res = await fetch(url,
             {

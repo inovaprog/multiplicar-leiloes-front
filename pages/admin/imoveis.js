@@ -11,7 +11,7 @@ export default function LoginPage() {
 
     useEffect(async () => {
         setCarregando(true);
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         const res = await fetch(url,
             {
                 method: "GET",

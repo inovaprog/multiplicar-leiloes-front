@@ -15,7 +15,7 @@ export default function FormularioUsuario({ u }) {
     const removeUser = (async () => {
         setCarregando(true)
         var url = process.env.URL + `/admin/remove_user?id=${u}`
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         var res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -42,7 +42,7 @@ export default function FormularioUsuario({ u }) {
             setTextBotao("Cancelar")
         }
         else {
-            const token = window.sessionStorage.getItem('token')
+            const token = window.localStorage.getItem('token')
             const url = process.env.URL + `/admin/get_user?id=${u}`;
             const res = await fetch(url,
                 {
@@ -75,7 +75,7 @@ export default function FormularioUsuario({ u }) {
                 imoveis = event.target.imoveis.value.replace(' ', '').split(',')
                 console.log(imoveis)
             }
-            const token = window.sessionStorage.getItem("token");
+            const token = window.localStorage.getItem("token");
             const response = await fetch(url,
                 {
                     method: 'POST',
@@ -126,7 +126,7 @@ export default function FormularioUsuario({ u }) {
                 imoveis = event.target.imoveis.value.replace(' ', '').split(',')
                 console.log(imoveis)
             }
-            const token = window.sessionStorage.getItem("token");
+            const token = window.localStorage.getItem("token");
             const response = await fetch(url,
                 {
                     method: 'POST',

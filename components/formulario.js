@@ -47,7 +47,7 @@ export default function FormularioImovel({ imovel }) {
 
     const removeImovel = (async () => {
         var url = process.env.URL + `/admin/remove_imovel?id=${imovel.id}`
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         var res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -83,7 +83,7 @@ export default function FormularioImovel({ imovel }) {
                 foto: fotos,
             }
             var url = process.env.URL + '/admin/add_imovel'
-            const token = window.sessionStorage.getItem("token");
+            const token = window.localStorage.getItem("token");
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -110,7 +110,7 @@ export default function FormularioImovel({ imovel }) {
             }
             console.log(data)
             var url = process.env.URL + '/admin/edit_imovel'
-            const token = window.sessionStorage.getItem("token");
+            const token = window.localStorage.getItem("token");
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {

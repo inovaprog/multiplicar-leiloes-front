@@ -5,7 +5,7 @@ import Router from "next/router";
 
 export default function BarraSup({ nome }) {
     useEffect(async () => {
-        if (!window.sessionStorage.getItem("token")) {
+        if (!window.localStorage.getItem("token")) {
             Router.push("/admin/login");
         }
     })

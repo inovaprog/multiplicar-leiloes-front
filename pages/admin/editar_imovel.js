@@ -11,7 +11,7 @@ export default function EditarImovel({ id }) {
 
     useEffect(async () => {
         const url = process.env.URL + `/admin/get_imovel?id=${id}`;
-        const token = window.sessionStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
         const res = await fetch(url,
             {
                 method: "GET",

@@ -26,10 +26,10 @@ export default function BlocoLogin() {
         });
         var response = await res.json();
         if (response.status == 'Success') {
-            window.sessionStorage.setItem('email', email);
-            window.sessionStorage.setItem('password', password);
-            window.sessionStorage.setItem('token', response.data[0].IdToken);
-            window.sessionStorage.setItem('userId', response.data[1]);
+            window.localStorage.setItem('email', email);
+            window.localStorage.setItem('password', password);
+            window.localStorage.setItem('token', response.data[0].IdToken);
+            window.localStorage.setItem('userId', response.data[1]);
             Router.push(`/`);
         }
         else {
