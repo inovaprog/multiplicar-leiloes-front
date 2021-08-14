@@ -1,16 +1,16 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import Planilha from "../../components/planilha";
+import PlanilhaVendas from "../../components/planilha-vendas";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
 import { useEffect, useState } from "react";
 
 export default function LoginPage() {
-    const [usuarios, setUsuarios] = useState([])
+    const [vendas, setVendas] = useState([])
     const [carregando, setCarregando] = useState(true)
 
     useEffect(async () => {
         const token = window.sessionStorage.getItem('token')
-        const url = process.env.URL + "/admin/get_all_users";
+        const url = process.env.URL + "/vendas";
         const res = await fetch(url,
             {
                 method: "GET",
@@ -21,8 +21,8 @@ export default function LoginPage() {
             });
 
         var data = await res.json();
-        setUsuarios(data.data);
-        console.log(usuarios)
+        console.log(data)
+        setVendas(data.data);
         setCarregando(false)
     }, [])
 
@@ -57,7 +57,7 @@ export default function LoginPage() {
             <Container>
                 <Row>
                     <Col>
-                        <Planilha usuarios={usuarios} />
+                        <PlanilhaVendas vendas={vendas} />
                     </Col>
                 </Row>
             </Container>

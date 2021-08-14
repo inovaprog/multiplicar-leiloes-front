@@ -22,6 +22,7 @@ export default function BarraSup({ nome }) {
                         <Nav style={{ paddingRight: 50, color: "white" }}>
                             <Nav.Link href={`/admin/usuarios`}>Clientes</Nav.Link>
                             <Nav.Link href="/admin/imoveis">Imóveis</Nav.Link>
+                            <Nav.Link href="/admin/vendas">Vendas</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

@@ -1,0 +1,131 @@
+import { Col, Row, Container, Button, Spinner, Form } from "react-bootstrap";
+import styles from "../styles/Home.module.css"
+import Router from "next/router"
+import { useState } from "react";
+
+export default function PlanilhaVendas({ vendas }) {
+    const [carregando, setCarregando] = useState(false);
+
+    const uploadVenda = (async (e) => {
+        e.preventDefault()
+        setCarregando(true)
+        var data = {
+            "user": e.target.user.value,
+            "imovel": e.target.imovel.value,
+            "valor": e.target.valor.value,
+            "data": e.target.data.value
+        }
+        var url = process.env.URL + `/vendas/add_venda`
+        const token = window.sessionStorage.getItem("token");
+        var res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        });
+        var response = await res.json();
+        if (response.status == 'Success') {
+            Router.reload(window.location.pathname);
+        }
+        else {
+            console.log("erro")
+            Router.reload(window.location.pathname);
+        }
+        console.log(data)
+        setCarregando(false)
+    })
+
+    const removeVenda = (async (id) => {
+        setCarregando(true)
+        var url = process.env.URL + `/vendas/remove?id=${id}`
+        const token = window.sessionStorage.getItem("token");
+        var res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        var response = await res.json();
+        if (response.status == 'Success') {
+            Router.reload(window.location.pathname);
+            setCarregando(false)
+        }
+        else {
+            console.log("erro")
+            Router.reload(window.location.pathname);
+            setCarregando(false)
+        }
+    })
+
+    if (carregando) {
+        return (
+            <div>
+                <Container>
+                    <center>
+                        {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
+                    </center>
+                </Container>
+            </div>
+        )
+    }
+
+
+    return (
+        <div>
+            <Container>
+                <center><h3>Vendas</h3></center>
+                <Form onSubmit={uploadVenda}>
+                    <Row>
+                        <Col>
+                            <Form.Label>Data</Form.Label>
+                            <Form.Control name="data" required></Form.Control>
+                        </Col>
+                        <Col>
+                            <Form.Label>ID Imóvel</Form.Label>
+                            <Form.Control name="imovel" type='numeric' required></Form.Control>
+                        </Col>
+                        <Col>
+                            <Form.Label>ID Usuário</Form.Label>
+                            <Form.Control name="user" type='numeric' required></Form.Control>
+                        </Col>
+                        <Col>
+                            <Form.Label>Valor</Form.Label>
+                            <Form.Control name="valor" type='numeric' required></Form.Control>
+                        </Col>
+                        <Col>
+                            <Form.Label style={{visibility:'hidden'}}>Confirmar</Form.Label>
+                            <Button type='submit'>Adicionar Venda</Button>
+                        </Col>
+                    </Row>
+                </Form>
+                <div className={styles.topoTabela}>
+                    <Row>
+                        <Col xs={1}>ID</Col>
+                        <Col xs={3}>Data</Col>
+                        <Col xs={2}>Imóvel</Col>
+                        <Col xs={2}>Usuário</Col>
+                        <Col xs={2}>Valor</Col>
+                    </Row>
+                </div>
+                {vendas.map(venda => (
+                    <div className={styles.linhaImovel}>
+                        <Row>
+                            <Col xs={1}>{venda.id}</Col>
+                            <Col xs={3}>{venda.data}</Col>
+                            <Col xs={2}><a href={`/admin/editar_imovel?id=${venda.imovel.id}`}>{venda.imovel.id}</a></Col>
+                            <Col xs={2}><a href={`/admin/editar_usuario?id=${venda.user.id}`}>{venda.user.id}</a></Col>
+                            <Col xs={2}>{venda.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
+                            <Col xs={2}>
+                                <Button className={styles.btnMultiplicar} onClick={() => { if (window.confirm('Tem certeza?')) removeVenda(venda.id) }}>Excluir
+                                </Button>
+                            </Col>
+                        </Row>
+                    </div>
+                ))}
+            </Container>
+        </div>
+    )
+}
