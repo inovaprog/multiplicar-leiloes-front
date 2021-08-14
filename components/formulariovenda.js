@@ -29,7 +29,7 @@ export default function FormularioVenda({ usuario }) {
             console.log(data);
             Router.push('/admin/vendas')
         }
-        else{
+        else {
             alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
             Router.push('/admin/vendas')
         }
@@ -57,13 +57,13 @@ export default function FormularioVenda({ usuario }) {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Data</Form.Label>
-                                <Form.Control name='data' type="date"></Form.Control>
+                                <Form.Control type='date' name='data' type="date"></Form.Control>
                             </Form.Group>
                             <Col>
-                        <center>
-                            <Button className={styles.btnMultiplicar} type="submit" style={{ margin: 20 }}>Salvar</Button>
-                        </center>
-                    </Col>
+                                <center>
+                                    <Button className={styles.btnMultiplicar} type="submit" style={{ margin: 20 }}>Salvar</Button>
+                                </center>
+                            </Col>
                         </Form>
                     </Col>
                 </Row>

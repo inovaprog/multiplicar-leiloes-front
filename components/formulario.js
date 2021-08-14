@@ -260,11 +260,19 @@ export default function FormularioImovel({ imovel }) {
                                 </Carousel>
                             </div>
                         </div>
+                        <Row style={{margin:30}}>
+                                <Col>
+                                    <Button href={imovel.link}  target='_blank'>Abrir em {imovel.fonte}</Button>
+                                </Col>
+                                <Col>
+                                    <Button href={imovel.link_doc} target='_blank'>Abrir Documentos</Button>
+                                </Col>
+                        </Row>
                     </Col>
                 </Row>
 
             </Container>
-        </div>
+        </div >
     )
 
 }

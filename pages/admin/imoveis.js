@@ -26,7 +26,7 @@ export default function LoginPage() {
             setImoveis(imoveis)
             setCarregando(false)
         }
-        if (res.status == 401 || res.status == 403) {
+        else {
             window.location.href = "admin/login";
         }
 

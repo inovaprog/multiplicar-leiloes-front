@@ -30,8 +30,8 @@ export default function PlanilhaVendas({ vendas }) {
             Router.reload(window.location.pathname);
         }
         else {
-            console.log("erro")
-            Router.reload(window.location.pathname);
+            alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
+            setCarregando(false)
         }
         console.log(data)
         setCarregando(false)
@@ -81,7 +81,7 @@ export default function PlanilhaVendas({ vendas }) {
                     <Row>
                         <Col>
                             <Form.Label>Data</Form.Label>
-                            <Form.Control name="data" required></Form.Control>
+                            <Form.Control type='date' name="data" required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>ID Imóvel</Form.Label>

@@ -232,7 +232,7 @@ export default function FormularioUsuario({ u }) {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Nascimento</Form.Label>
-                                        <Form.Control defaultValue={usuario.nascimento} name='nascimento'></Form.Control>
+                                        <Form.Control type='date' defaultValue={usuario.nascimento} name='nascimento'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
