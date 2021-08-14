@@ -27,13 +27,9 @@ export default function IndexPage() {
             });
 
         var data = await res.json()
+        console.log(data)
         if (data.status != "Success") {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            }
+            Router.push('/login')
         }
         setImoveis(data.data)
         setCarregando(false)

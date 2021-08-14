@@ -3,6 +3,7 @@ import Planilha from "../../components/planilha";
 import Head from "next/head";
 import BarraSup from "../../components/barraTopoAdmin";
 import { useEffect, useState } from "react";
+import Router from "next/dist/next-server/server/router";
 
 export default function LoginPage() {
     const [usuarios, setUsuarios] = useState([])
@@ -21,8 +22,13 @@ export default function LoginPage() {
             });
 
         var data = await res.json();
+        if(res.status == 200){
         setUsuarios(data.data);
         console.log(usuarios)
+        }
+        else{
+            Router.push('/admin/login')
+        }
         setCarregando(false)
     }, [])
 

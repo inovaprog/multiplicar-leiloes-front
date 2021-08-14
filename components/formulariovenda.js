@@ -27,7 +27,11 @@ export default function FormularioVenda({ usuario }) {
         if (data.status == "Success") {
             console.log('Adicionado com sucesso');
             console.log(data);
-            Router.push('/admin/')
+            Router.push('/admin/vendas')
+        }
+        else{
+            alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
+            Router.push('/admin/vendas')
         }
     }
 

@@ -80,6 +80,7 @@ export default function FormularioImovel({ imovel }) {
                 data1: event.target.data1.value,
                 data2: event.target.data2.value,
                 tipo: event.target.tipo.value,
+                analizado: event.target.analizado.checked,
                 foto: fotos,
             }
             var url = process.env.URL + '/admin/add_imovel'
@@ -105,6 +106,7 @@ export default function FormularioImovel({ imovel }) {
                     data1: event.target.data1.value,
                     data2: event.target.data2.value,
                     tipo: event.target.tipo.value,
+                    analizado: event.target.analizado.checked,
                     foto: fotos
                 }
             }
@@ -122,10 +124,10 @@ export default function FormularioImovel({ imovel }) {
         }
         var response = await res.json();
         if (response.status == 'Success') {
-            Router.push(`/admin/`);
+            Router.push(`/admin/imoveis`);
         }
         else {
-            console.log("erro")
+            alert("Ocorreu um erro. Por favor verifique os dados e tente novamente.")
             setCarregando(false);
         }
     })
@@ -164,10 +166,17 @@ export default function FormularioImovel({ imovel }) {
                 <Row>
                     <Col sm={6}>
                         <Form onSubmit={addImovel}>
+                            <Row></Row>
                             <Form.Control style={{ display: 'none' }} name='id' value={imovel.id}></Form.Control>
                             <Form.Group>
-                                <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${id_label}`}</Form.Label>
-                                <br></br>
+                                <Row>
+                                    <Col>
+                                        <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${id_label}`}</Form.Label>
+                                    </Col>
+                                    <Col>
+                                        <Form.Check defaultChecked={imovel.analizado} type="checkbox" name='analizado' id="analizado" label="Analisado Juridicamente" ></Form.Check>
+                                    </Col>
+                                </Row>
                                 <Form.Label>Endereço</Form.Label>
                                 <Form.Control required defaultValue={imovel.rua} name='rua'></Form.Control>
                             </Form.Group>

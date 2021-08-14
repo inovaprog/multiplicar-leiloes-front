@@ -54,7 +54,7 @@ export default function PlanilhaVendas({ vendas }) {
             setCarregando(false)
         }
         else {
-            console.log("erro")
+            alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
             Router.reload(window.location.pathname);
             setCarregando(false)
         }
@@ -96,7 +96,7 @@ export default function PlanilhaVendas({ vendas }) {
                             <Form.Control name="valor" type='numeric' required></Form.Control>
                         </Col>
                         <Col>
-                            <Form.Label style={{visibility:'hidden'}}>Confirmar</Form.Label>
+                            <Form.Label style={{ visibility: 'hidden' }}>Confirmar</Form.Label>
                             <Button type='submit'>Adicionar Venda</Button>
                         </Col>
                     </Row>

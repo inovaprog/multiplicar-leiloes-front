@@ -22,12 +22,7 @@ export default function IndexPage({ id }) {
 
         var data = await res.json()
         if (data.status != "Success") {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            }
+                Router.push('/login')
         }
         var i = data.data[0];
         console.log(i);

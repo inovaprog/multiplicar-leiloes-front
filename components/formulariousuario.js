@@ -118,6 +118,10 @@ export default function FormularioUsuario({ u }) {
                 Router.push('/admin/usuarios')
                 setCarregando(false)
             }
+            else{
+                alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
+                Router.push('/admin/usuarios')
+            }
         }
         else {
             const url = process.env.URL + '/admin/add_user'
@@ -167,6 +171,10 @@ export default function FormularioUsuario({ u }) {
                 console.log(data);
                 Router.push('/admin/usuarios')
                 setCarregando(false)
+            }
+            else{
+                alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
+                Router.push('/admin/usuarios')
             }
         }
     }

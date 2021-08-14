@@ -23,15 +23,12 @@ export default function BarraSup() {
             });
 
         var data = await res.json()
-        if (data.status != "Success") {
-            return {
-                redirect: {
-                    destination: '/login',
-                    permanent: false,
-                },
-            }
+        if (data.status == "Success") {
+            setNome(data.data.nome);
         }
-        setNome(data.data.nome);
+        else{
+            Router.push('/login')
+        }
     }, [])
 
 
