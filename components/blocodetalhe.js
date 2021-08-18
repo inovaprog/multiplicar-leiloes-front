@@ -21,6 +21,7 @@ export default function BlocoDetalhe({ imovel }) {
                         <div className={styles.preco} style={imovel.valor2 ? { textDecoration: 'line-through' } : { textDecoration: 'normal' }}>{imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</div>
                         <div className={styles.data}>{imovel.data2}</div>
                         <div className={styles.preco}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : ''}</div>
+                        <div className={styles.data}>{imovel.valor_mercado ? `Valor de Mercado:  ${imovel.valor_mercado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}` : ''}</div>
                     </center>
                 </Row>
                 <center>
