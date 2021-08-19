@@ -76,7 +76,7 @@ export default function PlanilhaVendas({ vendas }) {
     return (
         <div>
             <Container>
-                <center><h3>Vendas</h3></center>
+                <center><h3>Imoveis Arrematados</h3></center>
                 <Form onSubmit={uploadVenda}>
                     <Row>
                         <Col>
