@@ -114,7 +114,7 @@ export default function PlanilhaVendas({ vendas }) {
                     <div className={styles.linhaImovel}>
                         <Row>
                             <Col xs={1}>{venda.id}</Col>
-                            <Col xs={3}>{venda.data}</Col>
+                            <Col xs={3}>{venda.data.toString().split('-')[2] +'/'+venda.data.toString().split('-')[1]+'/'+venda.data.toString().split('-')[0]}</Col>
                             <Col xs={2}><a href={`/admin/editar_imovel?id=${venda.imovel.id}`}>{venda.imovel.id}</a></Col>
                             <Col xs={2}><a href={`/admin/editar_usuario?id=${venda.user.id}`}>{venda.user.id}</a></Col>
                             <Col xs={2}>{venda.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
