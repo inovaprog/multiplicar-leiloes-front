@@ -105,22 +105,22 @@ export default function PlanilhaVendas({ vendas }) {
                 </Form>
                 <div className={styles.topoTabela}>
                     <Row>
-                        <Col xs={1}>ID</Col>
-                        <Col xs={3}>Data</Col>
-                        <Col xs={2}>Imóvel</Col>
-                        <Col xs={2}>Usuário</Col>
-                        <Col xs={2}>Valor</Col>
+                        <Col sm={1}>ID</Col>
+                        <Col sm={3}>Data</Col>
+                        <Col sm={2}>Imóvel</Col>
+                        <Col sm={2}>Usuário</Col>
+                        <Col sm={2}>Valor</Col>
                     </Row>
                 </div>
                 {vendas.map(venda => (
                     <div className={styles.linhaImovel}>
                         <Row>
-                            <Col xs={1}>{venda.id}</Col>
-                            <Col xs={3}>{venda.data.toString().split('-')[2] +'/'+venda.data.toString().split('-')[1]+'/'+venda.data.toString().split('-')[0]}</Col>
-                            <Col xs={2}><a href={`/admin/editar_imovel?id=${venda.imovel.id}`}>{venda.imovel.id}</a></Col>
-                            <Col xs={2}><a href={`/admin/editar_usuario?id=${venda.user.id}`}>{venda.user.id}</a></Col>
-                            <Col xs={2}>{venda.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
-                            <Col xs={2}>
+                            <Col sm={1}>{venda.id}</Col>
+                            <Col sm={3}>{venda.data.toString().split('-')[2] +'/'+venda.data.toString().split('-')[1]+'/'+venda.data.toString().split('-')[0]}</Col>
+                            <Col sm={2}><a href={`/admin/editar_imovel?id=${venda.imovel.id}`}>{venda.imovel.id}</a></Col>
+                            <Col sm={2}><a href={`/admin/editar_usuario?id=${venda.user.id}`}>{venda.user.id}</a></Col>
+                            <Col sm={2}>{venda.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
+                            <Col sm={2}>
                                 <Button className={styles.btnMultiplicar} onClick={() => { if (window.confirm('Tem certeza?')) removeVenda(venda.id) }}>Excluir
                                 </Button>
                             </Col>
