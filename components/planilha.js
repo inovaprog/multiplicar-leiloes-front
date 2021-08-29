@@ -5,11 +5,11 @@ import Router from "next/router"
 export default function Planilha({ imoveis, usuarios }) {
     var showHeader = "none";
     var showMsg = "block";
-    if (imoveis.length != 0) {
-        showHeader = "block";
-        showMsg = "none";
-    }
     if (imoveis) {
+        if (imoveis.length != 0) {
+            showHeader = "block";
+            showMsg = "none";
+        }
         return (
             <div>
                 <Container>
