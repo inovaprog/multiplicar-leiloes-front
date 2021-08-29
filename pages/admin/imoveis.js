@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 export default function LoginPage() {
     const [allImoveis, setImoveis] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [url, setUrl] = useState(process.env.URL + "/admin/get_imoveis");
+    const [url, setUrl] = useState(process.env.URL + "/admin/get_imoveis?estado=0");
 
     useEffect(async () => {
         setCarregando(true);
@@ -39,9 +39,13 @@ export default function LoginPage() {
         var tipo = event.target.tipo.value;
         var estado = event.target.estado.value;
         var cres = event.target.valorCres.checked;
-        var decres = event.target.valorDecres.checked
+        var decres = event.target.valorDecres.checked;
+        var id = event.target.id.value;
 
         var query = '?';
+        if (id != '') {
+            query += '&id=' + id;
+        }
         if (cidade != '') {
             query += '&cidade=' + cidade;
         }
@@ -63,7 +67,7 @@ export default function LoginPage() {
         var url = process.env.URL + "/admin/get_imoveis" + query;
         console.log(url.replace('?&', '?'));
         setUrl(url);
-        return () => {}
+        return () => { }
     }
 
     if (carregando) {
@@ -104,13 +108,16 @@ export default function LoginPage() {
                     <Form onSubmit={trocarImoveis} style={{ padding: 25 }}>
                         <Row>
                             <Col sm={2}>
+                                <Form.Control placeholder="ID" name="id"></Form.Control>
+                            </Col>
+                            <Col sm={2}>
+                                <Form.Control placeholder="Estado" name="estado"></Form.Control>
+                            </Col>
+                            <Col sm={2}>
                                 <Form.Control placeholder="Cidade" name="cidade"></Form.Control>
                             </Col>
                             <Col sm={2}>
                                 <Form.Control placeholder="Bairro" name="bairro"></Form.Control>
-                            </Col>
-                            <Col sm={2}>
-                                <Form.Control placeholder="Estado" name="estado"></Form.Control>
                             </Col>
                             <Col sm={2}>
                                 <Form.Control placeholder="Tipo" name="tipo"></Form.Control>

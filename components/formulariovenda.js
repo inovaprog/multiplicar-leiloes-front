@@ -1,12 +1,15 @@
 import Router from 'next/router';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
+import formatarMoeda from '../lib/functions'
 
 
 export default function FormularioVenda({ usuario }) {
 
     const addVenda = async (event) => {
         event.preventDefault();
+        var valor = event.target.valor1.value.replace('R$', '').replace('.', '').replace(',', '.')
+
         const url = process.env.URL + '/admin/add_venda'
         const response = await fetch(url,
             {
@@ -18,7 +21,7 @@ export default function FormularioVenda({ usuario }) {
                 body: JSON.stringify({
                     imovel: event.target.imovel.value,
                     usuario: event.target.usuario.value,
-                    valor: event.target.valor.value,
+                    valor: parseFloat(valor),
                     data: event.target.data.value,
                 })
             }
@@ -53,7 +56,7 @@ export default function FormularioVenda({ usuario }) {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Valor</Form.Label>
-                                <Form.Control name='valor'></Form.Control>
+                                <Form.Control id="valor" onChange={() => formatarMoeda('valor')} name='valor'></Form.Control>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Data</Form.Label>

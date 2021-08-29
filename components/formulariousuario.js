@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
 import { User } from '../models/models';
 import { useEffect, useLayoutEffect, useState } from 'react';
+import formatarMoeda from '../lib/functions'
 
 
 export default function FormularioUsuario({ u }) {
@@ -75,6 +76,7 @@ export default function FormularioUsuario({ u }) {
                 imoveis = event.target.imoveis.value.replace(' ', '').split(',')
                 console.log(imoveis)
             }
+            var valor = event.target.valor_max.value.replace('R$', '').replace('.', '').replace(',', '.')
             const token = window.localStorage.getItem("token");
             const response = await fetch(url,
                 {
@@ -104,7 +106,7 @@ export default function FormularioUsuario({ u }) {
                             cidade_imovel: event.target.cidade_imovel.value,
                             estado_imovel: event.target.estado_imovel.value,
                             bairro_imovel: event.target.bairro_imovel.value,
-                            valor_max: event.target.valor_max.value,
+                            valor_max: parseFloat(valor),
                             tipo_pagamento: event.target.tipo_pagamento.value,
                             imoveis: imoveis
                         }
@@ -118,7 +120,7 @@ export default function FormularioUsuario({ u }) {
                 Router.push('/admin/usuarios')
                 setCarregando(false)
             }
-            else{
+            else {
                 alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
                 Router.push('/admin/usuarios')
             }
@@ -130,6 +132,8 @@ export default function FormularioUsuario({ u }) {
                 imoveis = event.target.imoveis.value.replace(' ', '').split(',')
                 console.log(imoveis)
             }
+
+            
             const token = window.localStorage.getItem("token");
             const response = await fetch(url,
                 {
@@ -159,7 +163,7 @@ export default function FormularioUsuario({ u }) {
                         cidade_imovel: event.target.cidade_imovel.value,
                         estado_imovel: event.target.estado_imovel.value,
                         bairro_imovel: event.target.bairro_imovel.value,
-                        valor_max: event.target.valor_max.value,
+                        valor_max: parseFloat(event.target.valor_max.value.replace(',', '.')),
                         tipo_pagamento: event.target.tipo_pagamento.value,
                         imoveis: imoveis
                     })
@@ -172,7 +176,7 @@ export default function FormularioUsuario({ u }) {
                 Router.push('/admin/usuarios')
                 setCarregando(false)
             }
-            else{
+            else {
                 alert("Ocorreu um erro, por favor verifique os dados e tente novamente")
                 Router.push('/admin/usuarios')
             }
@@ -187,9 +191,9 @@ export default function FormularioUsuario({ u }) {
         )
     }
 
-
     return (
         <div style={{ backgroundColor: '#E3E3E3', borderRadius: 10, marginTop: 30, padding: 20 }}>
+
             <Container>
                 <center><h3>Editar Usuário</h3></center>
                 <Row>
@@ -329,7 +333,7 @@ export default function FormularioUsuario({ u }) {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Valor máximo do investimento</Form.Label>
-                                        <Form.Control defaultValue={usuario.valor_max} name='valor_max'></Form.Control>
+                                        <Form.Control defaultValue={usuario.valor_max.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}  onChange={() => formatarMoeda('valor')} id="valor" name='valor_max'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>

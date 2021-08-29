@@ -3,13 +3,19 @@ import styles from "../styles/Home.module.css"
 import Router from "next/router"
 
 export default function Planilha({ imoveis, usuarios }) {
+    var showHeader = "none";
+    var showMsg = "block";
+    if (imoveis.length != 0) {
+        showHeader = "block";
+        showMsg = "none";
+    }
     if (imoveis) {
         return (
             <div>
                 <Container>
                     <center><h3>Imóveis</h3></center>
                     <Button onClick={() => Router.push('/admin/adicionar_imovel')}>Adicionar Imóvel</Button>
-                    <div className={styles.topoTabela}>
+                    <div className={styles.topoTabela} style={{display : showHeader}}>
                         <Row>
                             <Col xs={1}>ID</Col>
                             <Col xs={5}>Endereço</Col>
@@ -17,6 +23,9 @@ export default function Planilha({ imoveis, usuarios }) {
                             <Col xs={2}>2ª Praça</Col>
                             <Col xs={2}>Editar</Col>
                         </Row>
+                    </div>
+                    <div style={{display : showMsg , marginTop: 50}}>
+                        <center><h3>Aplique um filtro para fazer uma busca</h3></center>
                     </div>
                     {imoveis.map(imovel => (
                         <div className={styles.linhaImovel}>

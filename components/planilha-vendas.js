@@ -2,6 +2,7 @@ import { Col, Row, Container, Button, Spinner, Form } from "react-bootstrap";
 import styles from "../styles/Home.module.css"
 import Router from "next/router"
 import { useState } from "react";
+import formatarMoeda from "../lib/functions";
 
 export default function PlanilhaVendas({ vendas }) {
     const [carregando, setCarregando] = useState(false);
@@ -9,10 +10,11 @@ export default function PlanilhaVendas({ vendas }) {
     const uploadVenda = (async (e) => {
         e.preventDefault()
         setCarregando(true)
+        var valor = e.target.valor.value.replace('R$', '').replace('.', '').replace(',', '.')
         var data = {
-            "user": e.target.user.value,
-            "imovel": e.target.imovel.value,
-            "valor": e.target.valor.value,
+            "user": parseInt(e.target.user.value),
+            "imovel": parseInt(e.target.imovel.value),
+            "valor": parseFloat(valor),
             "data": e.target.data.value
         }
         var url = process.env.URL + `/vendas/add_venda`
@@ -93,7 +95,7 @@ export default function PlanilhaVendas({ vendas }) {
                         </Col>
                         <Col>
                             <Form.Label>Valor</Form.Label>
-                            <Form.Control name="valor" type='numeric' required></Form.Control>
+                            <Form.Control name="valor" id="valor" onChange={() => formatarMoeda('valor')} type='numeric' required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label style={{ visibility: 'hidden' }}>Confirmar</Form.Label>

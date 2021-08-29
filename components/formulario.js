@@ -4,6 +4,7 @@ import { Imovel } from '../models/models'
 import { useEffect, useState, useLayoutEffect } from 'react'
 import React from 'react'
 import Router from 'next/router'
+import formatarMoeda from '../lib/functions'
 
 export default function FormularioImovel({ imovel }) {
     const [images, setImages] = useState([]);
@@ -69,15 +70,19 @@ export default function FormularioImovel({ imovel }) {
     const addImovel = (async (event) => {
         console.log(event)
         event.preventDefault()
+        var valor1 = event.target.valor1.value.replace('R$', '').replace('.', '').replace(',', '.')
+        var valor2 = event.target.valor2.value.replace('R$', '').replace('.', '').replace(',', '.')
+        var valor_mercado = event.target.valor_mercado.value.replace('R$', '').replace('.', '').replace(',', '.')
+
         if (!event.target.id.value) {
             var data = {
                 estado: event.target.estado.value,
                 cidade: event.target.cidade.value,
                 bairro: event.target.bairro.value,
                 rua: event.target.rua.value,
-                valor_mercado: event.target.valor_mercado.value,
-                valor1: event.target.valor1.value,
-                valor2: event.target.valor2.value,
+                valor_mercado: valor_mercado,
+                valor1: valor1,
+                valor2: valor2,
                 data1: event.target.data1.value,
                 data2: event.target.data2.value,
                 tipo: event.target.tipo.value,
@@ -102,9 +107,9 @@ export default function FormularioImovel({ imovel }) {
                     cidade: event.target.cidade.value,
                     bairro: event.target.bairro.value,
                     rua: event.target.rua.value,
-                    valor_mercado: event.target.valor_mercado.value,
-                    valor1: event.target.valor1.value,
-                    valor2: event.target.valor2.value,
+                    valor_mercado: parseFloat(valor_mercado),
+                    valor1: parseFloat(valor1),
+                    valor2: parseFloat(valor2),
                     data1: event.target.data1.value,
                     data2: event.target.data2.value,
                     tipo: event.target.tipo.value,
@@ -213,7 +218,7 @@ export default function FormularioImovel({ imovel }) {
                                 <Col sm={5}>
                                     <Form.Group>
                                         <Form.Label>Valor de mercado</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor_mercado} name='valor_mercado'></Form.Control>
+                                        <Form.Control defaultValue={imovel.valor_mercado ? imovel.valor_mercado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }): 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) } id="valor_mercado" onChange={() =>  formatarMoeda('valor_mercado')} name='valor_mercado'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -225,7 +230,7 @@ export default function FormularioImovel({ imovel }) {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 1ª Praça</Form.Label>
-                                        <Form.Control required defaultValue={imovel.valor1} name='valor1'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -235,7 +240,7 @@ export default function FormularioImovel({ imovel }) {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 2ª Praça</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor2} name='valor2'></Form.Control>
+                                        <Form.Control defaultValue={imovel.valor2 ? imovel.valor2.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor2" onChange={() => formatarMoeda('valor2')} name='valor2'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <center>
