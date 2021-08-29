@@ -230,7 +230,7 @@ export default function FormularioImovel({ imovel }) {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 1ª Praça</Form.Label>
-                                        <Form.Control required defaultValue={imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) } id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
