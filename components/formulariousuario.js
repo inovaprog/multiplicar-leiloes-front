@@ -333,7 +333,7 @@ export default function FormularioUsuario({ u }) {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Valor máximo do investimento</Form.Label>
-                                        <Form.Control defaultValue={usuario.valor_max.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}  onChange={() => formatarMoeda('valor')} id="valor" name='valor_max'></Form.Control>
+                                        <Form.Control defaultValue={usuario.valor_max ? usuario.valor_max.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00}  onChange={() => formatarMoeda('valor')} id="valor" name='valor_max'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
