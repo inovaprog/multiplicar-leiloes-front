@@ -41,6 +41,7 @@ export default function LoginPage() {
         var cres = event.target.valorCres.checked;
         var decres = event.target.valorDecres.checked;
         var id = event.target.id.value;
+        var fonte = event.target.fonte.value;
 
         var query = '?';
         if (id != '') {
@@ -57,6 +58,9 @@ export default function LoginPage() {
         }
         if (estado != '') {
             query += '&estado=' + estado;
+        }
+        if (fonte != '') {
+            query += '&fonte=' + fonte;
         }
         if (cres) {
             query += '&order=valor1';
@@ -121,6 +125,9 @@ export default function LoginPage() {
                             </Col>
                             <Col sm={2}>
                                 <Form.Control placeholder="Tipo" name="tipo"></Form.Control>
+                            </Col>
+                            <Col sm={2}>
+                                <Form.Control placeholder="Leiloeiro" name="fonte"></Form.Control>
                             </Col>
                             <Col sm={2}>
                                 <Button type="submit" bsStyle="primary">Buscar</Button>

@@ -12,7 +12,6 @@ export default function FormularioImovel({ imovel }) {
     const [fotos, setFotos] = useState([]);
 
     useLayoutEffect(() => {
-        console.log("teste")
         if ('urlImg' in imovel) {
             var imgs = imovel.urlImg.split(",");
             setImages(imgs);

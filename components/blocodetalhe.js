@@ -5,7 +5,7 @@ import Router from 'next/router';
 export default function BlocoDetalhe({ imovel }) {
 
     const lance = (() => {
-        const link = `https://api.whatsapp.com/send?phone=5531996146595&text=Ola,%20tenho%20interesse%20no%20imovel%20%23id%20%3D%20${imovel.id}`
+        const link = `https://api.whatsapp.com/send?phone=5511953061107&text=Ola,%20tenho%20interesse%20no%20imovel%20%23id%20%3D%20${imovel.id}`
         Router.push(link)
     })
 
