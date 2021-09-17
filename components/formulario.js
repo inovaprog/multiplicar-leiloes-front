@@ -13,8 +13,10 @@ export default function FormularioImovel({ imovel }) {
 
     useLayoutEffect(() => {
         if ('urlImg' in imovel) {
-            var imgs = imovel.urlImg.split(",");
-            setImages(imgs);
+            if (imovel.urlImg != null) {
+                var imgs = imovel.urlImg.split(",");
+                setImages(imgs);
+            }
         }
     }, [imovel])
 
@@ -217,7 +219,7 @@ export default function FormularioImovel({ imovel }) {
                                 <Col sm={5}>
                                     <Form.Group>
                                         <Form.Label>Valor de mercado</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor_mercado ? imovel.valor_mercado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }): 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) } id="valor_mercado" onChange={() =>  formatarMoeda('valor_mercado')} name='valor_mercado'></Form.Control>
+                                        <Form.Control defaultValue={imovel.valor_mercado ? imovel.valor_mercado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor_mercado" onChange={() => formatarMoeda('valor_mercado')} name='valor_mercado'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -229,7 +231,7 @@ export default function FormularioImovel({ imovel }) {
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 1ª Praça</Form.Label>
-                                        <Form.Control required defaultValue={imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) } id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
+                                        <Form.Control required defaultValue={imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -266,13 +268,13 @@ export default function FormularioImovel({ imovel }) {
                                 </Carousel>
                             </div>
                         </div>
-                        <Row style={{margin:30, padding: 10}}>
-                                <Col>
-                                    <center><Button href={imovel.link}  target='_blank'>Abrir em {imovel.fonte}</Button></center>
-                                </Col>
-                                <Col>
-                                    <center><Button href={imovel.link_doc} target='_blank'>Abrir Documentos</Button></center>
-                                </Col>
+                        <Row style={{ margin: 30, padding: 10 }}>
+                            <Col>
+                                <center><Button href={imovel.link} target='_blank'>Abrir em {imovel.fonte}</Button></center>
+                            </Col>
+                            <Col>
+                                <center><Button href={imovel.link_doc} target='_blank'>Abrir Documentos</Button></center>
+                            </Col>
                         </Row>
                     </Col>
                 </Row>
