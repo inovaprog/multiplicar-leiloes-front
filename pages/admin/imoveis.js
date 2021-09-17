@@ -127,7 +127,11 @@ export default function LoginPage() {
                                 <Form.Control placeholder="Tipo" name="tipo"></Form.Control>
                             </Col>
                             <Col sm={2}>
-                                <Form.Control placeholder="Leiloeiro" name="fonte"></Form.Control>
+                                <FormControl as="select" name="fonte">
+                                    <option value="zukerman">Zukerman</option>
+                                    <option value="megaLeiloes">Mega Leilões</option>
+                                    <option value="Caixa">Caixa</option>
+                                </FormControl>
                             </Col>
                             <Col sm={2}>
                                 <Button type="submit" bsStyle="primary">Buscar</Button>
