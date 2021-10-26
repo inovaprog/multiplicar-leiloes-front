@@ -42,6 +42,7 @@ export default function LoginPage() {
         var decres = event.target.valorDecres.checked;
         var id = event.target.id.value;
         var fonte = event.target.fonte.value;
+        var ordem = event.target.ordem.value || 'valor1';
 
         var query = '?';
         if (id != '') {
@@ -63,10 +64,10 @@ export default function LoginPage() {
             query += '&fonte=' + fonte;
         }
         if (cres) {
-            query += '&order=valor1';
+            query += '&order=' + ordem;
         }
         if (decres) {
-            query += '&d_order=valor1';
+            query += '&d_order=' + ordem;
         }
         var url = process.env.URL + "/admin/get_imoveis" + query;
         console.log(url.replace('?&', '?'));
@@ -146,6 +147,13 @@ export default function LoginPage() {
                         </Row>
                         <br></br>
                         <Row>
+                            <Col sm={2}>
+                                <FormControl as="select" name="ordem">
+                                    <option value=''>Ordernar por:</option>
+                                    <option value="valor1">Valor 1ª Praça</option>
+                                    <option value="valor2">Valor 2ª Praça</option>
+                                    <option value="cidade">Cidade</option>
+                                </FormControl>                           </Col>
                             <Col sm={2}>
                                 <Form.Check type="radio" name='valor' id="valorCres" label="Valor crescente" />
                             </Col>
