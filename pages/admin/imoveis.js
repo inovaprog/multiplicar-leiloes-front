@@ -111,10 +111,10 @@ export default function LoginPage() {
                     {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
                     <Form onSubmit={trocarImoveis} style={{ padding: 25 }}>
                         <Row>
-                            <Col sm={2}>
+                            <Col sm={1}>
                                 <Form.Control placeholder="ID" name="id"></Form.Control>
                             </Col>
-                            <Col sm={2}>
+                            <Col sm={1}>
                                 <Form.Control placeholder="Estado" name="estado"></Form.Control>
                             </Col>
                             <Col sm={2}>
@@ -143,8 +143,13 @@ export default function LoginPage() {
                             <Col sm={2}>
                                 <Button type="submit" bsStyle="primary">Buscar</Button>
                             </Col>
+                        </Row>
+                        <br></br>
+                        <Row>
                             <Col sm={2}>
                                 <Form.Check type="radio" name='valor' id="valorCres" label="Valor crescente" />
+                            </Col>
+                            <Col sm={2}>
                                 <Form.Check type="radio" name='valor' id="valorDecres" label="Valor decrescente" />
                             </Col>
                         </Row>

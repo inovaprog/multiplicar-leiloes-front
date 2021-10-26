@@ -176,7 +176,10 @@ export default function FormularioImovel({ imovel }) {
                 <Row>
                     <Col sm={6}>
                         <Form onSubmit={addImovel}>
-                            <Row></Row>
+                            <Row>
+                                <a href="/admin/imoveis"> Voltar</a>
+                            </Row>
+                            <br></br>
                             <Form.Control style={{ display: 'none' }} name='id' value={imovel.id}></Form.Control>
                             <Form.Group>
                                 <Row>
@@ -187,17 +190,7 @@ export default function FormularioImovel({ imovel }) {
                                         <Form.Check defaultChecked={imovel.analizado} type="checkbox" name='analizado' id="analizado" label="Analisado Juridicamente" ></Form.Check>
                                     </Col>
                                     <Col>
-                                        <FormControl as="select" name="fonte" defaultValue={imovel.fonte}>
-                                            <option value="zukerman">Zukerman</option>
-                                            <option value="caixa">Caixa</option>
-                                            <option value="megaLeiloes">Mega Leilões</option>
-                                            <option value="sodreSantoro">Sodre Santoro</option>
-                                            <option value="frazao">Frazão</option>
-                                            <option value="biasi">Biasi</option>
-                                            <option value="lanceJudicial">Lance Judicial</option>
-                                            <option value="leilaoVip">Leilão Vip</option>
-
-                                        </FormControl>
+                                        <Form.Control required defaultValue={imovel.fonte} name="fonte"></Form.Control>
                                     </Col>
                                 </Row>
                                 <Form.Label>Endereço</Form.Label>
