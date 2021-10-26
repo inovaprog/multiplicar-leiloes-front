@@ -15,7 +15,7 @@ export default function Planilha({ imoveis, usuarios }) {
                 <Container>
                     <center><h3>Imóveis</h3></center>
                     <Button onClick={() => Router.push('/admin/adicionar_imovel')}>Adicionar Imóvel</Button>
-                    <div className={styles.topoTabela} style={{display : showHeader}}>
+                    <div className={styles.topoTabela} style={{ display: showHeader }}>
                         <Row>
                             <Col sm={1}>ID</Col>
                             <Col sm={5}>Endereço</Col>
@@ -24,7 +24,7 @@ export default function Planilha({ imoveis, usuarios }) {
                             <Col sm={2}>Editar</Col>
                         </Row>
                     </div>
-                    <div style={{display : showMsg , marginTop: 50}}>
+                    <div style={{ display: showMsg, marginTop: 50 }}>
                         <center><h3>Aplique um filtro para fazer uma busca</h3></center>
                     </div>
                     {imoveis.map(imovel => (
@@ -32,11 +32,14 @@ export default function Planilha({ imoveis, usuarios }) {
                             <Row>
                                 <Col sm={2}>{imovel.id}</Col>
                                 <Col sm={4}>{imovel.rua} - {imovel.cidade}/{imovel.estado}</Col>
-                                <Col sm={2}>{imovel.valor1.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Col>
-                                <Col sm={2}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) : ''}</Col>
+                                <Col sm={2}>{imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : ''}</Col>
+                                <Col sm={2}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : ''}</Col>
                                 <Col sm={2}>
-                                    <Button className={styles.btnMultiplicar} onClick={() => Router.push(`/admin/editar_imovel?id=${imovel.id}`)}>Detalhes
-                                    </Button>
+                                    <a href={`/admin/editar_imovel?id=${imovel.id}`} target="_blank">
+                                        <Button className={styles.btnMultiplicar}>Detalhes
+                                        </Button>
+                                    </a>
+
                                 </Col>
                             </Row>
                         </div>

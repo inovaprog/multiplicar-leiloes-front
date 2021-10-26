@@ -117,6 +117,7 @@ export default function IndexPage() {
                         <div style={styles.bloco}>
                             <center>
                                 <label style={styles.nome}>Leiloeiros Cadastrados</label>
+                                <br></br>
                                 <span style={styles.quantidade}>{dados.leiloeiros}</span>
                             </center>
                         </div>

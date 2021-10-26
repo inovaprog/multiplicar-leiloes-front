@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, Button, Carousel, Spinner } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Carousel, Spinner, FormControl } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
 import { Imovel } from '../models/models'
 import { useEffect, useState, useLayoutEffect } from 'react'
@@ -88,6 +88,7 @@ export default function FormularioImovel({ imovel }) {
                 data2: event.target.data2.value,
                 tipo: event.target.tipo.value,
                 analizado: event.target.analizado.checked,
+                fonte: event.target.fonte.value,
                 foto: fotos,
             }
             var url = process.env.URL + '/admin/add_imovel'
@@ -114,6 +115,7 @@ export default function FormularioImovel({ imovel }) {
                     data1: event.target.data1.value,
                     data2: event.target.data2.value,
                     tipo: event.target.tipo.value,
+                    fonte: event.target.fonte.value,
                     analizado: event.target.analizado.checked,
                     foto: fotos
                 }
@@ -183,6 +185,19 @@ export default function FormularioImovel({ imovel }) {
                                     </Col>
                                     <Col>
                                         <Form.Check defaultChecked={imovel.analizado} type="checkbox" name='analizado' id="analizado" label="Analisado Juridicamente" ></Form.Check>
+                                    </Col>
+                                    <Col>
+                                        <FormControl as="select" name="fonte" defaultValue={imovel.fonte}>
+                                            <option value="zukerman">Zukerman</option>
+                                            <option value="caixa">Caixa</option>
+                                            <option value="megaLeiloes">Mega Leilões</option>
+                                            <option value="sodreSantoro">Sodre Santoro</option>
+                                            <option value="frazao">Frazão</option>
+                                            <option value="biasi">Biasi</option>
+                                            <option value="lanceJudicial">Lance Judicial</option>
+                                            <option value="leilaoVip">Leilão Vip</option>
+
+                                        </FormControl>
                                     </Col>
                                 </Row>
                                 <Form.Label>Endereço</Form.Label>

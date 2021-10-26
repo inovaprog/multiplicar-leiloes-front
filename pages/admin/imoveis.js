@@ -27,7 +27,7 @@ export default function LoginPage() {
             setCarregando(false)
         }
         else {
-            window.location.href = "admin/login";
+            window.location.href = "/admin/login";
         }
 
     }, [url]);
@@ -128,9 +128,16 @@ export default function LoginPage() {
                             </Col>
                             <Col sm={2}>
                                 <FormControl as="select" name="fonte">
+                                    <option value=''>Selecione</option>
                                     <option value="zukerman">Zukerman</option>
+                                    <option value="caixa">Caixa</option>
                                     <option value="megaLeiloes">Mega Leilões</option>
-                                    <option value="Caixa">Caixa</option>
+                                    <option value="sodreSantoro">Sodre Santoro</option>
+                                    <option value="frazao">Frazão</option>
+                                    <option value="biasi">Biasi</option>
+                                    <option value="lanceJudicial">Lance Judicial</option>
+                                    <option value="leilaoVip">Leilão Vip</option>
+
                                 </FormControl>
                             </Col>
                             <Col sm={2}>
