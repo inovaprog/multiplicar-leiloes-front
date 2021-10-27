@@ -176,10 +176,6 @@ export default function FormularioImovel({ imovel }) {
                 <Row>
                     <Col sm={6}>
                         <Form onSubmit={addImovel}>
-                            <Row>
-                                <a href="/admin/imoveis"> Voltar</a>
-                            </Row>
-                            <br></br>
                             <Form.Control style={{ display: 'none' }} name='id' value={imovel.id}></Form.Control>
                             <Form.Group>
                                 <Row>

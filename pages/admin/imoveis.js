@@ -7,11 +7,27 @@ import { useState, useEffect } from "react";
 export default function LoginPage() {
     const [allImoveis, setImoveis] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [url, setUrl] = useState(process.env.URL + "/admin/get_imoveis?estado=0");
+    const [url, setUrl] = useState(process.env.URL + "/admin/get_imoveis?estado=zzz");
 
     useEffect(async () => {
         setCarregando(true);
         const token = window.localStorage.getItem("token");
+        let preImoveis = window.localStorage.getItem("imoveis");
+        let target = window.localStorage.getItem("target");
+        preImoveis = JSON.parse(preImoveis);
+        console.log(preImoveis);
+        if (preImoveis) {
+            console.log(typeof (preImoveis));
+            setImoveis(preImoveis);
+            var elemento = document.createElement('a');
+            elemento.setAttribute('href', '#'+target);
+            await setCarregando(false);
+            if (target) {
+                elemento.click();
+                window.localStorage.removeItem("target");
+            }
+            return;
+        }
         const res = await fetch(url,
             {
                 method: "GET",
@@ -23,8 +39,12 @@ export default function LoginPage() {
         if (res.status == 200) {
             var data = await res.json()
             var imoveis = data.data
-            setImoveis(imoveis)
+            if (imoveis.length > 0) {
+                setImoveis(imoveis)
+                window.localStorage.setItem("imoveis", JSON.stringify(imoveis));
+            }
             setCarregando(false)
+
         }
         else {
             window.location.href = "/admin/login";
@@ -34,6 +54,9 @@ export default function LoginPage() {
 
     async function trocarImoveis(event) {
         event.preventDefault();
+        console.log("trocarImoveis");
+        window.localStorage.removeItem("imoveis");
+
         var cidade = event.target.cidade.value;
         var bairro = event.target.bairro.value;
         var tipo = event.target.tipo.value;

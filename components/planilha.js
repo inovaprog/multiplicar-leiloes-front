@@ -28,14 +28,14 @@ export default function Planilha({ imoveis, usuarios }) {
                         <center><h3>Aplique um filtro para fazer uma busca</h3></center>
                     </div>
                     {imoveis.map(imovel => (
-                        <div className={styles.linhaImovel}>
+                        <div id={imovel.id} className={styles.linhaImovel}>
                             <Row>
                                 <Col sm={2}>{imovel.id}</Col>
                                 <Col sm={4}>{imovel.rua} - {imovel.cidade}/{imovel.estado}</Col>
                                 <Col sm={2}>{imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : ''}</Col>
                                 <Col sm={2}>{imovel.valor2 ? imovel.valor2.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : ''}</Col>
                                 <Col sm={2}>
-                                    <a href={`/admin/editar_imovel?id=${imovel.id}`} target="_blank">
+                                    <a href={`/admin/editar_imovel?id=${imovel.id}`} onClick={() => window.localStorage.setItem('target', imovel.id)} >
                                         <Button className={styles.btnMultiplicar}>Detalhes
                                         </Button>
                                     </a>
