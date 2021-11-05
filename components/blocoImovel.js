@@ -13,7 +13,7 @@ export default function BlocoImovel({imovel}) {
                 <Row>
                     <Col>
                         <div className={styles.fotoImovel}>
-                            <img src={imovel.urlImg}></img>
+                            <img src={imovel.urlImg.split(',')[0]}></img>
                         </div>
                     </Col>
                 </Row>
