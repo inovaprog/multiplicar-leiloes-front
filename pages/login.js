@@ -3,6 +3,7 @@ import BlocoLogin from "./components/login";
 import Head from "next/head";
 import TopBarClient from "./components/topBarClient";
 
+
 export default function LoginPage() {
     return (
         <div>
