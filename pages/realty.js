@@ -1,16 +1,18 @@
 import { Container, Row, Col, Spinner, Carousel } from "react-bootstrap";
 import Head from "next/head";
-import BarraSup from "../components/barraTopo";
-import BlocoDetalhe from "../components/blocodetalhe";
+import BlocoDetalhe from "./components/detailsComponent";
 import { useEffect, useState } from "react";
+import TopBarClient from "./components/topBarClient";
+import Router from "next/router";
 
-export default function IndexPage({ id }) {
+export default function RealtyPage({ id }) {
     const [imovel, setImovel] = useState(null);
     const [carregando, setCarregando] = useState(true);
     const [images, setImages] = useState([]);
+
     useEffect(async () => {
         const token = window.localStorage.getItem("token");
-        const url = process.env.URL + `/admin/get_imovel?id=${id}`;
+        const url = process.env.URL + `/realty/${id}`;
         const res = await fetch(url,
             {
                 method: "GET",
@@ -21,15 +23,15 @@ export default function IndexPage({ id }) {
             });
 
         var data = await res.json()
-        if (data.status != "Success") {
-                Router.push('/login')
+        if (data.statusCode == 200) {
+            var images = data.data[0].imgUrl.split(",");
+            setImovel(data.data[0]);
+            setImages(images);
+            setCarregando(false);
         }
-        var i = data.data[0];
-        console.log(i);
-        var images = i.urlImg.split(",");
-        setImovel(data.data[0]);
-        setImages(images);
-        setCarregando(false);
+        else {
+            Router.push('/login')
+        }
     }, [])
 
     if (carregando) {
@@ -43,7 +45,7 @@ export default function IndexPage({ id }) {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                < BarraSup />
+                < TopBarClient />
                 <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center>
             </div>
         );
@@ -59,9 +61,8 @@ export default function IndexPage({ id }) {
                     crossOrigin="anonymous"
                 />
             </Head>
-            < BarraSup />
+            < TopBarClient />
             <Container>
-
                 <Row>
                     <Col sm={7}>
                         <div>

@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
-import FormularioImovel from "../../components/formulario";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
+import RealtyForm from "../components/realtyForm";
 
 export default function AdcionarImovel(){
     return (
@@ -14,11 +14,11 @@ export default function AdcionarImovel(){
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin />
             <Container>
                 <Row>
                     <Col>
-                        <FormularioImovel/>
+                        <RealtyForm/>
                     </Col>
                 </Row>
             </Container>

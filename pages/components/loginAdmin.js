@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css"
 import Router from "next/router"
 import { useState } from 'react'
 
-export default function BlocoLogin() {
+export default function LoginComponent() {
 
     const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState(false);
@@ -13,7 +13,7 @@ export default function BlocoLogin() {
         event.preventDefault();
         var email = event.target.email.value;
         var password = event.target.password.value;
-        var url = process.env.URL + '/users/signin'
+        var url = process.env.URL + '/auth/admin/signin'
         var res = await fetch(url, {
             method: 'POST',
             headers: {
@@ -25,15 +25,11 @@ export default function BlocoLogin() {
             })
         });
         var response = await res.json();
-        if (response.status == 'Success') {
-            window.localStorage.setItem('email', email);
-            window.localStorage.setItem('password', password);
-            window.localStorage.setItem('token', response.data[0].IdToken);
-            window.localStorage.setItem('userId', response.data[1]);
-            Router.push(`/`);
+        if (response.statusCode == 201) {
+            window.localStorage.setItem('tokenAdmin', response.data.IdToken);
+            Router.push(`/admin/`);
         }
         else {
-            console.log("erro")
             setErro(true);
             setCarregando(false);
         }
@@ -58,7 +54,7 @@ export default function BlocoLogin() {
                         <Row>
                             <Col xs={12}>
                                 <Form.Group controlId="formControlsPassword">
-                                    <Form.Label>Chave</Form.Label>
+                                    <Form.Label>Senha</Form.Label>
                                     <Form.Control name='password' type="password" placeholder="Senha" />
                                 </Form.Group>
                             </Col>
@@ -81,7 +77,6 @@ export default function BlocoLogin() {
                             </Row>
                         </center>
                     </Form>
-
                 </Row>
             </div>
         </Container>

@@ -1,36 +1,19 @@
 import styles from "../styles/Home.module.css"
-import { Navbar, Nav, Container, NavDropdown, Button, Col } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import Router from 'next/router'
 
-export default function BarraSup() {
-    const [nome, setNome] = useState(null);
-
+export default function TopBarClient() {
+    const [name, setName] = useState(null);
     useEffect(async () => {
-        if (!window.localStorage.getItem("token")) {
-            Router.push("/login");
-        }
-        const token = window.localStorage.getItem("token");
-        const userId = window.localStorage.getItem('userId');
-        const url = process.env.URL + `/admin/get_user?id=${userId}`;
-        const res = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            });
 
-        var data = await res.json()
-        if (data.status == "Success") {
-            setNome(data.data.nome);
-        }
-        else{
-            Router.push('/login')
-        }
-    }, [])
+        setName(window.localStorage.getItem('name'));
 
+    })
+
+    const logout = () => {
+        window.localStorage.clear();
+        window.location.reload();
+    }
 
     return (
         <div>
@@ -47,11 +30,14 @@ export default function BarraSup() {
                         </Nav>
                         <Nav>
                             {
-                                nome
-                                    ? <Nav style={{ color: "white" }}> Olá, {nome} </Nav>
+                                name
+                                    ? (<Nav style={{ color: "white" }}> Olá, {name} </Nav>)
                                     : <Button className={styles.btnMultiplicar} type="submit" block>Login</Button>
                             }
                         </Nav>
+                        {
+                           (name) ? <Button className={styles.btnMultiplicar} onClick={logout} block>Sair</Button> : null
+                        }
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

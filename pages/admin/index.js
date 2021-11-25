@@ -1,15 +1,16 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
 import { useState, useEffect } from "react";
+import Router from "next/router";
 
 export default function IndexPage() {
     const [dados, setDados] = useState({})
     const [carregando, setCarregando] = useState(true)
 
     useEffect(async () => {
-        const token = window.localStorage.getItem('token')
-        const url = process.env.URL + "/admin/dashboard";
+        const token = window.localStorage.getItem('tokenAdmin')
+        const url = process.env.URL + "/admin/summary";
         const res = await fetch(url,
             {
                 method: "GET",
@@ -20,13 +21,13 @@ export default function IndexPage() {
             });
 
         var data = await res.json();
-        if (res.status == 200) {
+        if (data.statusCode == 200) {
             setDados(data.data);
+            setCarregando(false)
         }
         else {
             Router.push('/admin/login')
         }
-        setCarregando(false)
 
     }, [])
 
@@ -63,7 +64,7 @@ export default function IndexPage() {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                <BarraSup nome={null} />
+                <TopBarAdmin />
                 <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center>
             </div>
         );
@@ -80,7 +81,7 @@ export default function IndexPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin />
             <Container style={styles.titulo}>
                 <Row>
                     <center><h1>Multiplicar Leilões</h1></center>
@@ -91,7 +92,7 @@ export default function IndexPage() {
                             <center>
                                 <label style={styles.nome}>Imoveis Cadastrados</label>
                                 <br></br>
-                                <span style={styles.quantidade}>{dados.imoveis}</span>
+                                <span style={styles.quantidade}>{dados.realties}</span>
                             </center>
                         </div>
                     </Col>
@@ -100,7 +101,7 @@ export default function IndexPage() {
                             <center>
                                 <label style={styles.nome}>Clientes Cadastrados</label>
                                 <br></br>
-                                <span style={styles.quantidade}>{dados.clientes}</span>
+                                <span style={styles.quantidade}>{dados.users}</span>
                             </center>
                         </div>
                     </Col>
@@ -109,7 +110,7 @@ export default function IndexPage() {
                             <center>
                                 <label style={styles.nome}>Vendas Realizadas</label>
                                 <br></br>
-                                <span style={styles.quantidade}>{dados.vendas}</span>
+                                <span style={styles.quantidade}>{dados.sales}</span>
                             </center>
                         </div>
                     </Col>
@@ -118,7 +119,7 @@ export default function IndexPage() {
                             <center>
                                 <label style={styles.nome}>Leiloeiros Cadastrados</label>
                                 <br></br>
-                                <span style={styles.quantidade}>{dados.leiloeiros}</span>
+                                <span style={styles.quantidade}>{dados.auctioneers}</span>
                             </center>
                         </div>
                     </Col>
@@ -130,7 +131,7 @@ export default function IndexPage() {
                             <center>
                                 <label style={styles.nome}>Valor total de vendas</label>
                                 <br></br>
-                                <span style={styles.quantidade}>{dados['valorVendas'].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
+                                <span style={styles.quantidade}>{dados['saleAmount'].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
                             </center>
                         </div>
                     </Col>

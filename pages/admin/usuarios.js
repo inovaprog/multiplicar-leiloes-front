@@ -1,17 +1,17 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import Planilha from "../../components/planilha";
+import UsersSheet from "../components/usersSheet";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
 import { useEffect, useState } from "react";
-import Router from "next/dist/next-server/server/router";
+import Router from "next/router";
 
 export default function LoginPage() {
-    const [usuarios, setUsuarios] = useState([])
+    const [users, setUsers] = useState([])
     const [carregando, setCarregando] = useState(true)
 
     useEffect(async () => {
-        const token = window.localStorage.getItem('token')
-        const url = process.env.URL + "/admin/get_all_users";
+        const token = window.localStorage.getItem('tokenAdmin')
+        const url = process.env.URL + "/users";
         const res = await fetch(url,
             {
                 method: "GET",
@@ -22,11 +22,11 @@ export default function LoginPage() {
             });
 
         var data = await res.json();
-        if(res.status == 200){
-        setUsuarios(data.data);
-        console.log(usuarios)
+        console.log(data)
+        if (data.statusCode == 200) {
+            setUsers(data.data);
         }
-        else{
+        else {
             Router.push('/admin/login')
         }
         setCarregando(false)
@@ -43,7 +43,7 @@ export default function LoginPage() {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                <BarraSup nome={null} />
+                <TopBarAdmin nome={null} />
                 <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center>
             </div>
         );
@@ -59,12 +59,12 @@ export default function LoginPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin />
             <Container>
                 <Row>
-                    <Col>
-                        <Planilha usuarios={usuarios} />
-                    </Col>
+                     <Col>
+                        <UsersSheet users={users} />
+                    </Col> 
                 </Row>
             </Container>
         </div>
