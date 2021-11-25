@@ -10,6 +10,7 @@ export default function UserFrom({ userId }) {
     const [imv, setImv] = useState('')
     const [carregando, setCarregando] = useState(true)
     const [textBotao, setTextBotao] = useState('Bloquear')
+    const [textColaborador, setTextColaborador] = useState('Adicionar como consultor')
 
     const removeUser = (async () => {
         setCarregando(true)
@@ -36,6 +37,36 @@ export default function UserFrom({ userId }) {
             Router.push(`/admin/usuarios`);
         }
     })
+
+    const addCollaborador = (async () => {
+        setCarregando(true)
+        if (!user.permission == 'collaborator') {
+            var url = process.env.API_URL + `/users/${user.id}/addToGroup`
+        } else {
+            var url = process.env.API_URL + `/users/${user.id}/removeToGroup`
+        }
+        const token = window.localStorage.getItem("tokenAdmin");
+        var res = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                "group": "collaborator"
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        var data = await res.json();
+        console.log(data)
+        if (data.statusCode == 200) {
+            Router.push(`/admin/usuarios`);
+        }
+        else {
+            console.log(data.data)
+            Router.push(`/admin/usuarios`);
+        }
+    })
+
 
     const editarUser = async (event) => {
         event.preventDefault();
@@ -117,9 +148,10 @@ export default function UserFrom({ userId }) {
         }
         setImv(userRealties)
 
-
+        if (data.data.permission == "collaborator") {
+            setTextColaborador('Remover dos consultores')
+        }
         if (data.data.isBlocked) {
-            console.log('bloqueado')
             setTextBotao('Desbloquear')
         }
         setCarregando(false)
@@ -287,14 +319,10 @@ export default function UserFrom({ userId }) {
                                     </center>
                                 </Col>
                                 <Col>
-                                    <Button variant='danger' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) addCollaborador() }} >Adicionar como Colaborador</Button>
+                                    <Button variant='success' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) addCollaborador() }} >{textColaborador}</Button>
                                 </Col>
                                 <Col>
-                                    {user.isBlocked ?
-                                        <Button variant='danger' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) removeUser() }} >{textBotao}</Button>
-                                        :
-                                        <Button variant='danger' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) removeUser() }} >{textBotao}</Button>
-                                    }
+                                    <Button variant='danger' style={{ margin: 20 }} onClick={() => { if (window.confirm('Tem certeza?')) removeUser() }} >{textBotao}</Button>
                                 </Col>
                             </Row>
                         </Form>
