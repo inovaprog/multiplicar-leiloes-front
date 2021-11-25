@@ -11,7 +11,7 @@ export default function LoginPage() {
 
     useEffect(async () => {
         const token = window.localStorage.getItem('tokenAdmin')
-        const url = process.env.URL + "/users";
+        const url = process.env.API_URL + "/users";
         const res = await fetch(url,
             {
                 method: "GET",

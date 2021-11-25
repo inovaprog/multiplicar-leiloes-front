@@ -12,7 +12,7 @@ export default function RealtyPage({ id }) {
 
     useEffect(async () => {
         const token = window.localStorage.getItem("token");
-        const url = process.env.URL + `/realty/${id}`;
+        const url = process.env.API_URL + `/realty/${id}`;
         const res = await fetch(url,
             {
                 method: "GET",

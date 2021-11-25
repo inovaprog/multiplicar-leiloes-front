@@ -17,7 +17,7 @@ export default function SalesSheet({ sales }) {
             "value": parseFloat(value),
             "date": e.target.date.value
         }
-        var url = process.env.URL + `/sales/add`
+        var url = process.env.API_URL + `/sales/add`
         const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'POST',
@@ -43,7 +43,7 @@ export default function SalesSheet({ sales }) {
 
     const removeVenda = (async (id) => {
         setCarregando(true)
-        var url = process.env.URL + `/sales/${id}/remove`
+        var url = process.env.API_URL + `/sales/${id}/remove`
         const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'GET',

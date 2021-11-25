@@ -7,7 +7,7 @@ import RealtySheet from "../components/realtySheet.js";
 export default function LoginPage() {
     const [allrealties, setrealties] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [url, setUrl] = useState(process.env.URL + "/realty?state=zzz");
+    const [url, setUrl] = useState(process.env.API_URL + "/realty?state=zzz");
 
     useEffect(async () => {
         setCarregando(true);
@@ -92,7 +92,7 @@ export default function LoginPage() {
         if (decres) {
             query += '&d_order=desc';
         }
-        var url = process.env.URL + "/realty" + query;
+        var url = process.env.API_URL + "/realty" + query;
         setUrl(url);
         return () => { }
     }

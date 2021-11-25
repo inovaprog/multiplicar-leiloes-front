@@ -13,7 +13,7 @@ export default function LoginComponent() {
         event.preventDefault();
         var email = event.target.email.value;
         var password = event.target.password.value;
-        var url = process.env.URL + '/auth/client/signin'
+        var url = process.env.API_URL + '/auth/client/signin'
         var res = await fetch(url, {
             method: 'POST',
             headers: {

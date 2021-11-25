@@ -10,7 +10,7 @@ export default function EditarImovel({ id }) {
     const [carregando, setCarregando] = useState(true);
 
     useEffect(async () => {
-        const url = process.env.URL + `/realty/${id}`;
+        const url = process.env.API_URL + `/realty/${id}`;
         const token = window.localStorage.getItem("tokenAdmin");
         const res = await fetch(url,
             {

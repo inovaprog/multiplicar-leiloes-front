@@ -14,9 +14,9 @@ export default function UserFrom({ userId }) {
     const removeUser = (async () => {
         setCarregando(true)
         if (!user.isBlocked) {
-            var url = process.env.URL + `/users/${user.id}/block`
+            var url = process.env.API_URL + `/users/${user.id}/block`
         } else {
-            var url = process.env.URL + `/users/${user.id}/unblock`
+            var url = process.env.API_URL + `/users/${user.id}/unblock`
         }
         const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
@@ -68,7 +68,7 @@ export default function UserFrom({ userId }) {
             paymentType: event.target.paymentType.value,
             realties: realties
         }
-        const url = process.env.URL + `/users/${userId}/edit`
+        const url = process.env.API_URL + `/users/${userId}/edit`
         const response = await fetch(url,
             {
                 method: 'POST',
@@ -99,7 +99,7 @@ export default function UserFrom({ userId }) {
 
     useEffect(async () => {
         const token = window.localStorage.getItem('tokenAdmin')
-        const url = process.env.URL + `/users/${userId}`;
+        const url = process.env.API_URL + `/users/${userId}`;
         const res = await fetch(url,
             {
                 method: "GET",

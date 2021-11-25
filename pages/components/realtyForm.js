@@ -26,7 +26,7 @@ export default function RealtyForm({ realty }) {
             try {
                 var image = file
                 const reader = new FileReader()
-                reader.readAsDataURL(image)
+                reader.readAsDataAPI_URL(image)
                 reader.onloadend = () => {
                     resolve(reader.result)
                 }
@@ -42,14 +42,14 @@ export default function RealtyForm({ realty }) {
         var show = []
         for (var image of imageList) {
             await converte2b64(image).then((result) => { fotos.push(result.split(',')[1]) })
-            show.push(URL.createObjectURL(image))
+            show.push(API_URL.createObjectAPI_URL(image))
         }
         setImages(show)
         setFotos(fotos)
     }
 
     const removeImovel = (async () => {
-        var url = process.env.URL + `/realty/${realty.id}/remove`;
+        var url = process.env.API_URL + `/realty/${realty.id}/remove`;
         const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'GET',
@@ -92,7 +92,7 @@ export default function RealtyForm({ realty }) {
             image: fotos,
         }
         if (!event.target.id.value) {
-            var url = process.env.URL + '/realty/add'
+            var url = process.env.API_URL + '/realty/add'
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -106,7 +106,7 @@ export default function RealtyForm({ realty }) {
                 id: event.target.id.value,
                 update: data
             }
-            var url = process.env.URL + `/realty/${updateData.id}/edit`
+            var url = process.env.API_URL + `/realty/${updateData.id}/edit`
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {

@@ -19,7 +19,7 @@ export default function addUserForm() {
             setCarregando(false);
             return;
         }
-        var url = process.env.URL + '/users/add'
+        var url = process.env.API_URL + '/users/add'
         const token = window.localStorage.getItem("tokenAdmin");
 
         var res = await fetch(url, {

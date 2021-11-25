@@ -10,7 +10,7 @@ export default function IndexPage() {
 
     useEffect(async () => {
         const token = window.localStorage.getItem('tokenAdmin')
-        const url = process.env.URL + "/admin/summary";
+        const url = process.env.API_URL + "/admin/summary";
         const res = await fetch(url,
             {
                 method: "GET",

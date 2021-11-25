@@ -9,6 +9,7 @@ export default function IndexPage() {
     const [carregando, setCarregando] = useState(true);
     const [realties, setRealties] = useState([]);
     const [user, setUser] = useState({})
+    console.log(process.env)
 
 
     useEffect(async () => {
@@ -16,7 +17,7 @@ export default function IndexPage() {
             Router.push("/login");
         }
         const token = window.localStorage.getItem("token");
-        var url = process.env.URL + `/users/me`;
+        var url = process.env.API_URL + `/users/me`;
         var res = await fetch(url,
             {
                 method: "GET",

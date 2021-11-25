@@ -10,7 +10,7 @@ export default function Sales() {
 
     useEffect(async () => {
         const token = window.localStorage.getItem('tokenAdmin')
-        const url = process.env.URL + "/sales";
+        const url = process.env.API_URL + "/sales";
         const res = await fetch(url,
             {
                 method: "GET",
