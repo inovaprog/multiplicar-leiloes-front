@@ -5,6 +5,9 @@ import { useState } from "react";
 import formatarMoeda from "../../lib/functions";
 
 export default function SalesSheet({ sales }) {
+    if (!sales) {
+        return null;
+    }
     const [carregando, setCarregando] = useState(false);
 
     const uploadVenda = (async (e) => {

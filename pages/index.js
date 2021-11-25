@@ -9,7 +9,6 @@ export default function IndexPage() {
     const [carregando, setCarregando] = useState(true);
     const [realties, setRealties] = useState([]);
     const [user, setUser] = useState({})
-    console.log(process.env)
 
 
     useEffect(async () => {

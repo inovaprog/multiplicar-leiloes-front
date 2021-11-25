@@ -9,6 +9,10 @@ export default function BlocoDetalhe({ imovel }) {
         Router.push(link)
     })
 
+    if(!imovel) {
+        return null
+    }
+
     return (
         <Container>
             <div className={styles.blocorealty} style={{ marginTop: 50 }}>

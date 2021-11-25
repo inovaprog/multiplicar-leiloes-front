@@ -3,6 +3,9 @@ import styles from "../styles/Home.module.css"
 import Router from "next/router"
 
 export default function realtySheet({ realties }) {
+    if (!realties) {
+        return null;
+    }
     var showHeader = "none";
     var showMsg = "block";
     console.log(realties);

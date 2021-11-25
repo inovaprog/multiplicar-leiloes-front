@@ -3,6 +3,9 @@ import styles from "../styles/Home.module.css"
 import Router from "next/router"
 
 export default function UsersSheet({ users }) {
+    if (!users) {
+        return null;
+    }
     return (
         <div>
             <Container>
