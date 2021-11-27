@@ -6,7 +6,7 @@ import { useState } from 'react'
 export default function LoginComponent() {
 
     const [carregando, setCarregando] = useState(false);
-    const [erro, setErro] = useState(false);
+    const [erro, setErro] = useState(null);
 
     const login = async (event) => {
         setCarregando(true);
@@ -29,8 +29,16 @@ export default function LoginComponent() {
             window.localStorage.setItem('token', response.data.IdToken);
             Router.push(`/`);
         }
+        else if (response.statusCode == 400) {
+            setErro('Usuário ou senha incorretos');
+            setCarregando(false);
+        }
+        else if (response.statusCode == 403) {
+            setErro('Você não tem permissão para acessar essa página');
+            setCarregando(false);
+        }
         else {
-            setErro(true);
+            setErro('Erro desconhecido');
             setCarregando(false);
         }
     };
@@ -69,7 +77,7 @@ export default function LoginComponent() {
                                     }
                                     {
                                         erro
-                                            ? <div className={styles.erro}>Usuário ou senha incorretos</div>
+                                            ? <div className={styles.erro}>{erro}</div>
                                             : null
                                     }
 

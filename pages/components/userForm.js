@@ -40,7 +40,7 @@ export default function UserFrom({ userId }) {
 
     const addCollaborador = (async () => {
         setCarregando(true)
-        if (!user.permission == 'collaborator') {
+        if (user.permission != 'collaborator') {
             var url = process.env.API_URL + `/users/${user.id}/addToGroup`
         } else {
             var url = process.env.API_URL + `/users/${user.id}/removeToGroup`
