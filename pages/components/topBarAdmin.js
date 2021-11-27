@@ -25,7 +25,7 @@ export default function TopBarAdmin() {
                         <Nav className="me-auto">
                         </Nav>
                         <Nav style={{ paddingRight: 50, color: "white" }}>
-                            <Nav.Link href={`/admin/usuarios`}>Clientes</Nav.Link>
+                            <Nav.Link href={`/admin/usuarios`}>Usuários</Nav.Link>
                             <Nav.Link href="/admin/imoveis">Imóveis</Nav.Link>
                             <Nav.Link href="/admin/vendas">Vendas</Nav.Link>
                             <Button className={styles.btnMultiplicar} onClick={logout} block>Sair</Button>                            
