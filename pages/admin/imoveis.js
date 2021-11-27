@@ -7,26 +7,14 @@ import RealtySheet from "../components/realtySheet.js";
 export default function LoginPage() {
     const [allrealties, setrealties] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [url, setUrl] = useState(process.env.API_URL + "/realty?state=zzz");
 
     useEffect(async () => {
         setCarregando(true);
         const token = window.localStorage.getItem("tokenAdmin");
-        let prerealties = window.localStorage.getItem("realties");
         let target = window.localStorage.getItem("target");
-        prerealties = JSON.parse(prerealties);
-        if (prerealties) {
-            setrealties(prerealties);
-            var elemento = document.createElement('a');
-            elemento.setAttribute('href', '#' + target);
-            setCarregando(false);
-            if (target) {
-                elemento.click();
-                window.localStorage.removeItem("target");
-            }
-            return;
-        }
-        const res = await fetch(url,
+        var localUrl = process.env.API_URL + "/realty?state=zzz";
+        var apiUrl = window.localStorage.getItem("searchUrl") || localUrl;
+        const res = await fetch(apiUrl, 
             {
                 method: "GET",
                 headers: {
@@ -40,17 +28,24 @@ export default function LoginPage() {
             console.log(realties);
             if (realties.length > 0) {
                 setrealties(realties)
-                window.localStorage.setItem("realties", JSON.stringify(realties));
+                window.localStorage.setItem('searchUrl', apiUrl);
+                var elemento = document.createElement('a');
+                elemento.setAttribute('href', '#' + target);
+                setCarregando(false);
+                if (target) {
+                    elemento.click();
+                    window.localStorage.removeItem("target");
+                }
             }
-            setCarregando(false)
+            setCarregando(false);
         }
         else {
             window.location.href = "/admin/login";
         }
 
-    }, [url]);
+    }, []);
 
-    async function trocarrealties(event) {
+    async function changeRealties(event) {
         event.preventDefault();
         window.localStorage.removeItem("realties");
 
@@ -93,8 +88,8 @@ export default function LoginPage() {
             query += '&d_order=desc';
         }
         var url = process.env.API_URL + "/realty" + query;
-        setUrl(url);
-        return () => { }
+        window.localStorage.setItem("searchUrl", url);
+        window.location.reload();
     }
 
     if (carregando) {
@@ -132,7 +127,7 @@ export default function LoginPage() {
             <Container>
                 <center>
                     {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
-                    <Form onSubmit={trocarrealties} style={{ padding: 25 }}>
+                    <Form onSubmit={changeRealties} style={{ padding: 25 }}>
                         <Row>
                             <Col sm={1}>
                                 <Form.Control placeholder="ID" name="id"></Form.Control>
@@ -187,9 +182,9 @@ export default function LoginPage() {
                     </Form>
                 </center>
                 <Row>
-                     <Col>
+                    <Col>
                         <RealtySheet realties={allrealties} />
-                    </Col> 
+                    </Col>
                 </Row>
             </Container>
         </div>
