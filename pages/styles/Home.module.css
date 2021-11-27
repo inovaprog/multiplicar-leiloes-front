@@ -162,6 +162,8 @@
   color: white;
   font-weight: bold;
   margin-left: 10px;
+  text-shadow: 0px 0px 5px black, 0 0 5px #DFA132;
+
 }
 
 #container figcaption span {
