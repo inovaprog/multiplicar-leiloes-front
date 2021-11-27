@@ -64,20 +64,24 @@ export default function RealtyPage({ id }) {
             < TopBarClient />
             <Container>
                 <Row>
-                    <Col sm={7}>
-                        <div>
-                            <Carousel prevLabel={null} nextLabel={null}>
-                                {images.map(i => (
-                                    <Carousel.Item>
-                                        <img
-                                            className="d-block w-100"
-                                            src={i}
-                                        />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </div>
-                    </Col>
+                    {
+                        images.length > 0 ?
+                            (<Col sm={7}>
+                                <div>
+                                    <Carousel prevLabel={null} nextLabel={null}>
+                                        {images.map(i => (
+                                            <Carousel.Item>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={i}
+                                                />
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                </div>
+                            </Col>) 
+                            :null
+                    }
                     <Col sm={5}>
                         <BlocoDetalhe imovel={imovel} />
                     </Col>

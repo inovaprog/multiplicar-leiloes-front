@@ -13,6 +13,8 @@ export default function RealtyComponent({ realty }) {
     return (
         <Container>
             <div className={styles.blocorealty}>
+                {
+                    realty.imgUrl ?
                 <Row>
                     <Col>
                         <div id={styles.container}>
@@ -21,6 +23,9 @@ export default function RealtyComponent({ realty }) {
                         </div>
                     </Col>
                 </Row>
+                :
+                null
+                }
                 <Row>
                     <center>
                         <div className={styles.city}>{realty.city}/{realty.state} <span>{realty.bairro}</span></div>
