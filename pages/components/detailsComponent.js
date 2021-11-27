@@ -29,7 +29,7 @@ export default function BlocoDetalhe({ imovel }) {
                     </center>
                 </Row>
                 <center>
-                    <Button onClick={lance} className={styles.btnMultiplicar}>  Fazer Lance </Button>
+                    <Button onClick={lance} className={styles.btnMultiplicar}>  Quero Participar </Button>
                 </center>
             </div>
         </Container>
