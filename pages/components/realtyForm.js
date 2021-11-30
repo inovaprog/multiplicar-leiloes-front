@@ -69,6 +69,7 @@ export default function RealtyForm({ realty }) {
         }
     })
 
+
     const addImovel = (async (event) => {
         event.preventDefault()
         var firstValue = event.target.firstValue.value.replace('R$', '').replace('.', '').replace(',', '.')
