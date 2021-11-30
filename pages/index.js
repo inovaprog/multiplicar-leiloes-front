@@ -1,38 +1,22 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Head from "next/head";
-import BarraSup from "../components/barraTopo";
-import BlocoImovel from "../components/blocoImovel";
+import TopBarClient from "./components/topBarClient"
+import RealtyComponent from "./components/realtyComponent";
 import { useEffect, useState } from "react";
 import Router from "next/router";
 
 export default function IndexPage() {
     const [carregando, setCarregando] = useState(true);
-    const [imoveis, setImoveis] = useState([]);
+    const [realties, setRealties] = useState([]);
     const [user, setUser] = useState({})
 
-    function Linha() {
-        return (
-            <div
-                style={
-                    {
-                        height: 1,
-                        width: "100%",
-                        backgroundColor: "#c1c1c1",
-                        marginTop: 10,
-                        marginBottom: 10
-                    }
-                }
-            ></div>
-        )
-    }
 
     useEffect(async () => {
         if (!window.localStorage.getItem("token")) {
             Router.push("/login");
         }
         const token = window.localStorage.getItem("token");
-        const userId = window.localStorage.getItem('userId');
-        var url = process.env.URL + `/users/imoveis?id=${userId}`;
+        var url = process.env.API_URL + `/users/me`;
         var res = await fetch(url,
             {
                 method: "GET",
@@ -43,29 +27,15 @@ export default function IndexPage() {
             });
 
         var data = await res.json()
-        console.log(data)
-        if (data.status != "Success") {
+        if (data.statusCode == 200) {
+            setRealties(data.data.realties)
+            setUser(data.data)
+            localStorage.setItem("name", data.data.name)
+            setCarregando(false)
+        }
+        else {
             Router.push('/login')
         }
-        setImoveis(data.data)
-        //buscar User
-        url = process.env.URL + `/admin/get_user?id=${userId}`;
-        res = await fetch(url,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-        var data = await res.json()
-        console.log(data)
-        if (data.status != "Success") {
-            Router.push('/login')
-        }
-        setUser(data.data)
-        setCarregando(false)
     }, [])
 
     return (
@@ -78,14 +48,15 @@ export default function IndexPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup />
+
+            <TopBarClient />
             <Container>
                 {carregando ? <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center> : null}
 
                 <Row>
-                    {imoveis.map(imovel => (
-                        <Col key={imovel.id} md={4}>
-                            <BlocoImovel imovel={imovel} />
+                    {realties.map(realty => (
+                        <Col key={realty.id} md={4}>
+                            <RealtyComponent realty={realty} />
                         </Col>
                     ))}
                 </Row>

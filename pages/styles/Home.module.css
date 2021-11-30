@@ -127,7 +127,7 @@
   border-radius: 20px;
 }
 
-.blocoImovel {
+.blocorealty {
   background-color: #E2E2E2;
   padding: 20px;
   margin-top: 30px;
@@ -135,14 +135,50 @@
   justify-content: space-around;
 }
 
-.fotoImovel img{
+.fotorealty img{
   width: 100%;
   margin-bottom: 10px;
+  padding: 10px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+#container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+#container img {
+  width: 100%;
+  height: auto;
+}
+
+
+#container figcaption {
+  position: absolute;
+  top: 80%;
+  font-size: 15px;
+  color: white;
+  font-weight: bold;
+  margin-left: 0px;
+  text-shadow: 0px 0px 5px black, 0 0 5px #DFA132;
+  background-color: red;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+
+
+#container figcaption span {
+  font-size: 30px;
 }
 
 .btnMultiplicar{
   background-color: #DFA132;
   border-color: #DFA132;
+  margin: 10px;
 }
 
 .btnMultiplicar:hover {
@@ -155,27 +191,27 @@
   width: 60px;
 }
 
-.cidade{
+.city{
   font-size: 18px;
   font-weight: bold;
 }
 
-.cidade span{
+.city span{
   font-size: 12px;
   font-weight:300;
 }
 
-.endereco{
+.address{
   font-size: 14px;
   font-weight:300;
 }
 
-.data{
+.date{
   font-size: 16px;
   font-weight:300;
 }
 
-.preco{
+.value{
   font-size: 20px;
   font-weight:bold;
 

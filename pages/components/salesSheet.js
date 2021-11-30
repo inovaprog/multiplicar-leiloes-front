@@ -2,23 +2,26 @@ import { Col, Row, Container, Button, Spinner, Form } from "react-bootstrap";
 import styles from "../styles/Home.module.css"
 import Router from "next/router"
 import { useState } from "react";
-import formatarMoeda from "../lib/functions";
+import formatarMoeda from "../../lib/functions";
 
-export default function PlanilhaVendas({ vendas }) {
+export default function SalesSheet({ sales }) {
+    if (!sales) {
+        return null;
+    }
     const [carregando, setCarregando] = useState(false);
 
     const uploadVenda = (async (e) => {
         e.preventDefault()
         setCarregando(true)
-        var valor = e.target.valor.value.replace('R$', '').replace('.', '').replace(',', '.')
+        var value = e.target.value.value.replace('R$', '').replace('.', '').replace(',', '.')
         var data = {
             "user": parseInt(e.target.user.value),
-            "imovel": parseInt(e.target.imovel.value),
-            "valor": parseFloat(valor),
-            "data": e.target.data.value
+            "realty": parseInt(e.target.realty.value),
+            "value": parseFloat(value),
+            "date": e.target.date.value
         }
-        var url = process.env.URL + `/vendas/add_venda`
-        const token = window.localStorage.getItem("token");
+        var url = process.env.API_URL + `/sales/add`
+        const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'POST',
             headers: {
@@ -28,7 +31,9 @@ export default function PlanilhaVendas({ vendas }) {
             body: JSON.stringify(data)
         });
         var response = await res.json();
-        if (response.status == 'Success') {
+
+        console.log(response)
+        if (response.statusCode == 201) {
             Router.reload(window.location.pathname);
         }
         else {
@@ -41,8 +46,8 @@ export default function PlanilhaVendas({ vendas }) {
 
     const removeVenda = (async (id) => {
         setCarregando(true)
-        var url = process.env.URL + `/vendas/remove?id=${id}`
-        const token = window.localStorage.getItem("token");
+        var url = process.env.API_URL + `/sales/${id}/remove`
+        const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -51,7 +56,7 @@ export default function PlanilhaVendas({ vendas }) {
             }
         });
         var response = await res.json();
-        if (response.status == 'Success') {
+        if (response.statusCode == 200) {
             Router.reload(window.location.pathname);
             setCarregando(false)
         }
@@ -83,19 +88,19 @@ export default function PlanilhaVendas({ vendas }) {
                     <Row>
                         <Col>
                             <Form.Label>Data</Form.Label>
-                            <Form.Control type='date' name="data" required></Form.Control>
+                            <Form.Control type='date' name="date" required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>ID Imóvel</Form.Label>
-                            <Form.Control name="imovel" type='numeric' required></Form.Control>
+                            <Form.Control name="realty" type='numeric' required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>ID Usuário</Form.Label>
                             <Form.Control name="user" type='numeric' required></Form.Control>
                         </Col>
                         <Col>
-                            <Form.Label>Valor</Form.Label>
-                            <Form.Control name="valor" id="valor" onChange={() => formatarMoeda('valor')} type='numeric' required></Form.Control>
+                            <Form.Label>value</Form.Label>
+                            <Form.Control name="value" id="value" onChange={() => formatarMoeda('value')} type='numeric' required></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label style={{ visibility: 'hidden' }}>Confirmar</Form.Label>
@@ -109,19 +114,19 @@ export default function PlanilhaVendas({ vendas }) {
                         <Col sm={3}>Data</Col>
                         <Col sm={2}>Imóvel</Col>
                         <Col sm={2}>Usuário</Col>
-                        <Col sm={2}>Valor</Col>
+                        <Col sm={2}>value</Col>
                     </Row>
                 </div>
-                {vendas.map(venda => (
-                    <div className={styles.linhaImovel}>
+                {sales.map(sale => (
+                    <div className={styles.linharealty}>
                         <Row>
-                            <Col sm={1}>{venda.id}</Col>
-                            <Col sm={3}>{venda.data.toString().split('-')[2] +'/'+venda.data.toString().split('-')[1]+'/'+venda.data.toString().split('-')[0]}</Col>
-                            <Col sm={2}><a href={`/admin/editar_imovel?id=${venda.imovel.id}`}>{venda.imovel.id}</a></Col>
-                            <Col sm={2}><a href={`/admin/editar_usuario?id=${venda.user.id}`}>{venda.user.id}</a></Col>
-                            <Col sm={2}>{venda.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
+                            <Col sm={1}>{sale.id}</Col>
+                            <Col sm={3}>{sale.date.toString().split('-')[2] +'/'+sale.date.toString().split('-')[1]+'/'+sale.date.toString().split('-')[0]}</Col>
+                            <Col sm={2}><a href={`/admin/editar_imovel?id=${sale.realty.id}`}>{sale.realty.id}</a></Col>
+                            <Col sm={2}><a href={`/admin/editar_usuario?id=${sale.user.id}`}>{sale.user.id}</a></Col>
+                            <Col sm={2}>{sale.value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</Col>
                             <Col sm={2}>
-                                <Button className={styles.btnMultiplicar} onClick={() => { if (window.confirm('Tem certeza?')) removeVenda(venda.id) }}>Excluir
+                                <Button className={styles.btnMultiplicar} onClick={() => { if (window.confirm('Tem certeza?')) removeVenda(sale.id) }}>Excluir
                                 </Button>
                             </Col>
                         </Row>

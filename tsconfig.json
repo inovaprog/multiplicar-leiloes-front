@@ -14,6 +14,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/blocoImovel.js", "components/blocodetalhe.js", "components/barraTopoAdmin.js", "components/barraTopo.js", "components/formulario.js", "components/formulariousuario.js", "components/login.js", "components/planilha.js", "pages/admin/usuarios.js", "pages/admin/login.js", "pages/admin/imoveis.js", "pages/admin/editar_usuario.js", "pages/admin/editar_imovel.js", "pages/admin/adicionar_usuario.js", "pages/admin/adicionar_imovel.js", "pages/login.js", "pages/index.js", "pages/imovel.js", "models/models.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/blocoImovel.js", "components/blocodetalhe.js", "pages/components/barraTopoAdmin.js", "components/barraTopo.js", "components/formulario.js", "components/formulariousuario.js", "components/login.js", "components/planilha.js", "pages/admin/usuarios.js", "pages/admin/login.js", "pages/admin/imoveis.js", "pages/admin/editar_usuario.js", "pages/admin/editar_imovel.js", "pages/admin/adicionar_usuario.js", "pages/admin/adicionar_imovel.js.js", "pages/login.js", "pages/index.js", "pages/imovel.js", "models/models.js"],
   "exclude": ["node_modules"]
 }

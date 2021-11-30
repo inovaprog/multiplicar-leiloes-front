@@ -1,10 +1,10 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import FormularioUsuario from "../../components/formulariousuario";
+import UserForm from "../components/userForm";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
 import { useEffect, useState } from "react";
 
-export default function EditarImovel({ id }) {
+export default function EditUser({ id }) {
 
     return (
         <div>
@@ -16,11 +16,11 @@ export default function EditarImovel({ id }) {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin nome={null} />
             <Container>
                 <Row>
                     <Col>
-                        <FormularioUsuario u={id} />
+                        <UserForm userId={id} />
                     </Col>
                 </Row>
             </Container>

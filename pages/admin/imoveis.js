@@ -1,34 +1,20 @@
 import { Container, Row, Col, Form, Button, InputGroup, DropdownButton, Dropdown, FormControl, Spinner } from "react-bootstrap";
-import Planilha from "../../components/planilha";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
 import { useState, useEffect } from "react";
+import TopBarAdmin from "../components/topBarAdmin";
+import RealtySheet from "../components/realtySheet.js";
 
 export default function LoginPage() {
-    const [allImoveis, setImoveis] = useState([]);
+    const [allrealties, setrealties] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [url, setUrl] = useState(process.env.URL + "/admin/get_imoveis?estado=zzz");
 
     useEffect(async () => {
         setCarregando(true);
-        const token = window.localStorage.getItem("token");
-        let preImoveis = window.localStorage.getItem("imoveis");
+        const token = window.localStorage.getItem("tokenAdmin");
         let target = window.localStorage.getItem("target");
-        preImoveis = JSON.parse(preImoveis);
-        console.log(preImoveis);
-        if (preImoveis) {
-            console.log(typeof (preImoveis));
-            setImoveis(preImoveis);
-            var elemento = document.createElement('a');
-            elemento.setAttribute('href', '#'+target);
-            await setCarregando(false);
-            if (target) {
-                elemento.click();
-                window.localStorage.removeItem("target");
-            }
-            return;
-        }
-        const res = await fetch(url,
+        var localUrl = process.env.API_URL + "/realty?state=zzz";
+        var apiUrl = window.localStorage.getItem("searchUrl") || localUrl;
+        const res = await fetch(apiUrl, 
             {
                 method: "GET",
                 headers: {
@@ -36,66 +22,74 @@ export default function LoginPage() {
                     "Authorization": `Bearer ${token}`
                 }
             });
-        if (res.status == 200) {
-            var data = await res.json()
-            var imoveis = data.data
-            if (imoveis.length > 0) {
-                setImoveis(imoveis)
-                window.localStorage.setItem("imoveis", JSON.stringify(imoveis));
+        var data = await res.json();
+        if (data.statusCode == 200) {
+            var realties = data.data
+            console.log(realties);
+            if (realties.length > 0) {
+                setrealties(realties)
+                window.localStorage.setItem('searchUrl', apiUrl);
+                var elemento = document.createElement('a');
+                elemento.setAttribute('href', '#' + target);
+                setCarregando(false);
+                if (target) {
+                    elemento.click();
+                    window.localStorage.removeItem("target");
+                }
             }
-            setCarregando(false)
-
+            setCarregando(false);
         }
         else {
             window.location.href = "/admin/login";
         }
 
-    }, [url]);
+    }, []);
 
-    async function trocarImoveis(event) {
+    async function changeRealties(event) {
         event.preventDefault();
-        console.log("trocarImoveis");
-        window.localStorage.removeItem("imoveis");
+        window.localStorage.removeItem("realties");
 
-        var cidade = event.target.cidade.value;
-        var bairro = event.target.bairro.value;
-        var tipo = event.target.tipo.value;
-        var estado = event.target.estado.value;
+        var city = event.target.city.value;
+        var district = event.target.district.value;
+        var type = event.target.type.value;
+        var state = event.target.state.value;
         var cres = event.target.valorCres.checked;
         var decres = event.target.valorDecres.checked;
         var id = event.target.id.value;
-        var fonte = event.target.fonte.value;
-        var ordem = event.target.ordem.value || 'valor1';
+        var source = event.target.source.value;
+        var order = event.target.order.value || 'id';
 
         var query = '?';
         if (id != '') {
             query += '&id=' + id;
         }
-        if (cidade != '') {
-            query += '&cidade=' + cidade;
+        if (city != '') {
+            query += '&city=' + city;
         }
-        if (bairro != '') {
-            query += '&bairro=' + bairro;
+        if (district != '') {
+            query += '&district=' + district;
         }
-        if (tipo != '') {
-            query += '&tipo=' + tipo;
+        if (type != '') {
+            query += '&type=' + type;
         }
-        if (estado != '') {
-            query += '&estado=' + estado;
+        if (state != '') {
+            query += '&state=' + state;
         }
-        if (fonte != '') {
-            query += '&fonte=' + fonte;
+        if (source != '') {
+            query += '&source=' + source;
+        }
+        if (order != '') {
+            query += '&order=' + order;
         }
         if (cres) {
-            query += '&order=' + ordem;
+            query += '&sort=asc';
         }
         if (decres) {
-            query += '&d_order=' + ordem;
+            query += '&d_order=desc';
         }
-        var url = process.env.URL + "/admin/get_imoveis" + query;
-        console.log(url.replace('?&', '?'));
-        setUrl(url);
-        return () => { }
+        var url = process.env.API_URL + "/realty" + query;
+        window.localStorage.setItem("searchUrl", url);
+        window.location.reload();
     }
 
     if (carregando) {
@@ -109,7 +103,7 @@ export default function LoginPage() {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                <BarraSup nome={null} />
+                <TopBarAdmin />
                 <Container>
                     <center>
                         {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
@@ -129,29 +123,29 @@ export default function LoginPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin />
             <Container>
                 <center>
                     {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
-                    <Form onSubmit={trocarImoveis} style={{ padding: 25 }}>
+                    <Form onSubmit={changeRealties} style={{ padding: 25 }}>
                         <Row>
                             <Col sm={1}>
                                 <Form.Control placeholder="ID" name="id"></Form.Control>
                             </Col>
                             <Col sm={1}>
-                                <Form.Control placeholder="Estado" name="estado"></Form.Control>
+                                <Form.Control placeholder="Estado" name="state"></Form.Control>
                             </Col>
                             <Col sm={2}>
-                                <Form.Control placeholder="Cidade" name="cidade"></Form.Control>
+                                <Form.Control placeholder="Cidade" name="city"></Form.Control>
                             </Col>
                             <Col sm={2}>
-                                <Form.Control placeholder="Bairro" name="bairro"></Form.Control>
+                                <Form.Control placeholder="Bairro" name="district"></Form.Control>
                             </Col>
                             <Col sm={2}>
-                                <Form.Control placeholder="Tipo" name="tipo"></Form.Control>
+                                <Form.Control placeholder="Tipo" name="type"></Form.Control>
                             </Col>
                             <Col sm={2}>
-                                <FormControl as="select" name="fonte">
+                                <FormControl as="select" name="source">
                                     <option value=''>Selecione</option>
                                     <option value="zukerman">Zukerman</option>
                                     <option value="caixa">Caixa</option>
@@ -171,12 +165,13 @@ export default function LoginPage() {
                         <br></br>
                         <Row>
                             <Col sm={2}>
-                                <FormControl as="select" name="ordem">
+                                <FormControl as="select" name="order">
                                     <option value=''>Ordernar por:</option>
-                                    <option value="valor1">Valor 1ª Praça</option>
-                                    <option value="valor2">Valor 2ª Praça</option>
-                                    <option value="cidade">Cidade</option>
-                                </FormControl>                           </Col>
+                                    <option value="firstValue">Valor 1ª Praça</option>
+                                    <option value="secondValue">Valor 2ª Praça</option>
+                                    <option value="city">Cidade</option>
+                                </FormControl>
+                            </Col>
                             <Col sm={2}>
                                 <Form.Check type="radio" name='valor' id="valorCres" label="Valor crescente" />
                             </Col>
@@ -188,7 +183,7 @@ export default function LoginPage() {
                 </center>
                 <Row>
                     <Col>
-                        <Planilha imoveis={allImoveis} />
+                        <RealtySheet realties={allrealties} />
                     </Col>
                 </Row>
             </Container>

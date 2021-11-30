@@ -10,7 +10,7 @@ export default function FormularioVenda({ usuario }) {
         event.preventDefault();
         var valor = event.target.valor1.value.replace('R$', '').replace('.', '').replace(',', '.')
 
-        const url = process.env.URL + '/admin/add_venda'
+        const url = process.env.API_URL + '/admin/add_venda'
         const response = await fetch(url,
             {
                 method: 'POST',

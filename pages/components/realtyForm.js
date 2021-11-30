@@ -1,24 +1,25 @@
 import { Container, Row, Col, Form, Button, Carousel, Spinner, FormControl } from 'react-bootstrap'
 import styles from "../styles/Home.module.css"
-import { Imovel } from '../models/models'
+import { Realty } from '../../models/models'
 import { useEffect, useState, useLayoutEffect } from 'react'
 import React from 'react'
 import Router from 'next/router'
-import formatarMoeda from '../lib/functions'
+import formatarMoeda from '../../lib/functions'
 
-export default function FormularioImovel({ imovel }) {
+export default function RealtyForm({ realty }) {
+    console.log(realty)
     const [images, setImages] = useState([]);
     const [carregando, setCarregando] = useState(false);
     const [fotos, setFotos] = useState([]);
 
     useLayoutEffect(() => {
-        if ('urlImg' in imovel) {
-            if (imovel.urlImg != null) {
-                var imgs = imovel.urlImg.split(",");
+        if ('imgUrl' in realty) {
+            if (realty.imgUrl != null) {
+                var imgs = realty.imgUrl.split(",");
                 setImages(imgs);
             }
         }
-    }, [imovel])
+    }, [realty])
 
     const converte2b64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -40,7 +41,7 @@ export default function FormularioImovel({ imovel }) {
         var fotos = []
         var show = []
         for (var image of imageList) {
-            await converte2b64(image).then((result) => { fotos.push(result.split(',')[1]) })
+            await converte2b64(image).then((result) => {  fotos.push(result.split(',')[1]) })
             show.push(URL.createObjectURL(image))
         }
         setImages(show)
@@ -48,8 +49,8 @@ export default function FormularioImovel({ imovel }) {
     }
 
     const removeImovel = (async () => {
-        var url = process.env.URL + `/admin/remove_imovel?id=${imovel.id}`
-        const token = window.localStorage.getItem("token");
+        var url = process.env.API_URL + `/realty/${realty.id}/remove`;
+        const token = window.localStorage.getItem("tokenAdmin");
         var res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -58,7 +59,8 @@ export default function FormularioImovel({ imovel }) {
             }
         });
         var response = await res.json();
-        if (response.status == 'Success') {
+        console.log(response)
+        if (response.statusCode == 200) {
             Router.push(`/admin/imoveis`);
         }
         else {
@@ -69,30 +71,28 @@ export default function FormularioImovel({ imovel }) {
 
 
     const addImovel = (async (event) => {
-        console.log(event)
         event.preventDefault()
-        var valor1 = event.target.valor1.value.replace('R$', '').replace('.', '').replace(',', '.')
-        var valor2 = event.target.valor2.value.replace('R$', '').replace('.', '').replace(',', '.')
-        var valor_mercado = event.target.valor_mercado.value.replace('R$', '').replace('.', '').replace(',', '.')
-
+        var firstValue = event.target.firstValue.value.replace('R$', '').replace('.', '').replace(',', '.')
+        var secondValue = event.target.secondValue.value.replace('R$', '').replace('.', '').replace(',', '.')
+        var marketValue = event.target.marketValue.value.replace('R$', '').replace('.', '').replace(',', '.')
+        const token = window.localStorage.getItem("tokenAdmin");
+        var data = {
+            state: event.target.state.value,
+            city: event.target.city.value,
+            district: event.target.district.value,
+            street: event.target.street.value,
+            marketValue: parseFloat(marketValue),
+            firstValue: parseFloat(firstValue),
+            secondValue: parseFloat(secondValue),
+            firstDate: event.target.firstDate.value,
+            secondDate: event.target.secondDate.value,
+            type: event.target.type.value,
+            analyzed: event.target.analyzed.checked,
+            source: event.target.source.value,
+            image: fotos,
+        }
         if (!event.target.id.value) {
-            var data = {
-                estado: event.target.estado.value,
-                cidade: event.target.cidade.value,
-                bairro: event.target.bairro.value,
-                rua: event.target.rua.value,
-                valor_mercado: valor_mercado,
-                valor1: valor1,
-                valor2: valor2,
-                data1: event.target.data1.value,
-                data2: event.target.data2.value,
-                tipo: event.target.tipo.value,
-                analizado: event.target.analizado.checked,
-                fonte: event.target.fonte.value,
-                foto: fotos,
-            }
-            var url = process.env.URL + '/admin/add_imovel'
-            const token = window.localStorage.getItem("token");
+            var url = process.env.API_URL + '/realty/add'
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -102,38 +102,22 @@ export default function FormularioImovel({ imovel }) {
                 body: JSON.stringify(data)
             });
         } else {
-            var data = {
+            var updateData = {
                 id: event.target.id.value,
-                update: {
-                    estado: event.target.estado.value,
-                    cidade: event.target.cidade.value,
-                    bairro: event.target.bairro.value,
-                    rua: event.target.rua.value,
-                    valor_mercado: parseFloat(valor_mercado),
-                    valor1: parseFloat(valor1),
-                    valor2: parseFloat(valor2),
-                    data1: event.target.data1.value,
-                    data2: event.target.data2.value,
-                    tipo: event.target.tipo.value,
-                    fonte: event.target.fonte.value,
-                    analizado: event.target.analizado.checked,
-                    foto: fotos
-                }
+                update: data
             }
-            console.log(data)
-            var url = process.env.URL + '/admin/edit_imovel'
-            const token = window.localStorage.getItem("token");
+            var url = process.env.API_URL + `/realty/${updateData.id}/edit`
             var res = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(updateData)
             });
         }
         var response = await res.json();
-        if (response.status == 'Success') {
+        if (response.statusCode == 201) {
             Router.push(`/admin/imoveis`);
         }
         else {
@@ -144,14 +128,14 @@ export default function FormularioImovel({ imovel }) {
 
     var titulo = "Editar Imóvel"
     var textBotao = "Excluir"
-    if (!imovel) {
+    if (!realty) {
         titulo = "Novo Imóvel"
-        var imovel = new Imovel();
+        var realty = new Realty();
         var id_label = " ---- "
         textBotao = "Cancelar"
     }
     else {
-        var id_label = imovel.id
+        var id_label = realty.id
     }
 
     if (carregando) {
@@ -176,54 +160,54 @@ export default function FormularioImovel({ imovel }) {
                 <Row>
                     <Col sm={6}>
                         <Form onSubmit={addImovel}>
-                            <Form.Control style={{ display: 'none' }} name='id' value={imovel.id}></Form.Control>
+                            <Form.Control style={{ display: 'none' }} name='id' value={realty.id}></Form.Control>
                             <Form.Group>
                                 <Row>
                                     <Col>
                                         <Form.Label style={{ fontWeight: 'bold' }}>{`ID do Imóvel: ${id_label}`}</Form.Label>
                                     </Col>
                                     <Col>
-                                        <Form.Check defaultChecked={imovel.analizado} type="checkbox" name='analizado' id="analizado" label="Analisado Juridicamente" ></Form.Check>
+                                        <Form.Check defaultChecked={realty.analyzed} type="checkbox" name='analyzed' id="analyzed" label="Analisado Juridicamente" ></Form.Check>
                                     </Col>
                                     <Col>
-                                        <Form.Control required defaultValue={imovel.fonte} name="fonte"></Form.Control>
+                                        <Form.Control required defaultValue={realty.source} name="source"></Form.Control>
                                     </Col>
                                 </Row>
                                 <Form.Label>Endereço</Form.Label>
-                                <Form.Control required defaultValue={imovel.rua} name='rua'></Form.Control>
+                                <Form.Control required defaultValue={realty.street} name='street'></Form.Control>
                             </Form.Group>
                             <Row>
                                 <Col sm={4}>
                                     <Form.Group>
-                                        <Form.Label>Bairro</Form.Label>
-                                        <Form.Control required defaultValue={imovel.bairro} name='bairro'></Form.Control>
+                                        <Form.Label>district</Form.Label>
+                                        <Form.Control required defaultValue={realty.district} name='district'></Form.Control>
                                     </Form.Group>
                                 </Col>
 
                                 <Col sm={6}>
                                     <Form.Group>
-                                        <Form.Label>Cidade</Form.Label>
-                                        <Form.Control required defaultValue={imovel.cidade} name='cidade'></Form.Control>
+                                        <Form.Label>city</Form.Label>
+                                        <Form.Control required defaultValue={realty.city} name='city'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col sm={2}>
                                     <Form.Group>
-                                        <Form.Label>Estado</Form.Label>
-                                        <Form.Control required defaultValue={imovel.estado} name='estado'></Form.Control>
+                                        <Form.Label>state</Form.Label>
+                                        <Form.Control required defaultValue={realty.state} name='state'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={7}>
                                     <Form.Group>
-                                        <Form.Label>Tipo do imóvel</Form.Label>
-                                        <Form.Control required defaultValue={imovel.tipo} name='tipo'></Form.Control>
+                                        <Form.Label>type do imóvel</Form.Label>
+                                        <Form.Control required defaultValue={realty.type} name='type'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col sm={5}>
                                     <Form.Group>
                                         <Form.Label>Valor de mercado</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor_mercado ? imovel.valor_mercado.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor_mercado" onChange={() => formatarMoeda('valor_mercado')} name='valor_mercado'></Form.Control>
+                                        <Form.Control defaultValue={realty.marketValue ? realty.marketValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="marketValue" onChange={() => formatarMoeda('marketValue')} name='marketValue'></Form.Control>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -231,21 +215,21 @@ export default function FormularioImovel({ imovel }) {
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Primeira Praça</Form.Label>
-                                        <Form.Control required defaultValue={imovel.data1} name='data1'></Form.Control>
+                                        <Form.Control required defaultValue={realty.firstDate} name='firstDate'></Form.Control>
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 1ª Praça</Form.Label>
-                                        <Form.Control required defaultValue={imovel.valor1 ? imovel.valor1.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor1" onChange={() => formatarMoeda('valor1')} name='valor1'></Form.Control>
+                                        <Form.Control required defaultValue={realty.firstValue ? realty.firstValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="firstValue" onChange={() => formatarMoeda('firstValue')} name='firstValue'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Segunda Praça</Form.Label>
-                                        <Form.Control defaultValue={imovel.data2} name='data2'></Form.Control>
+                                        <Form.Control defaultValue={realty.secondDate} name='secondDate'></Form.Control>
                                     </Form.Group>
                                     <Form.Group>
                                         <Form.Label>Valor 2ª Praça</Form.Label>
-                                        <Form.Control defaultValue={imovel.valor2 ? imovel.valor2.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="valor2" onChange={() => formatarMoeda('valor2')} name='valor2'></Form.Control>
+                                        <Form.Control defaultValue={realty.secondValue ? realty.secondValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })} id="secondValue" onChange={() => formatarMoeda('secondValue')} name='secondValue'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <center>
@@ -274,10 +258,7 @@ export default function FormularioImovel({ imovel }) {
                         </div>
                         <Row style={{ margin: 30, padding: 10 }}>
                             <Col>
-                                <center><Button href={imovel.link} target='_blank'>Abrir em {imovel.fonte}</Button></center>
-                            </Col>
-                            <Col>
-                                <center><Button href={imovel.link_doc} target='_blank'>Abrir Documentos</Button></center>
+                                <center><Button href={realty.sourceLink} target='_blank'>Abrir em {realty.source}</Button></center>
                             </Col>
                         </Row>
                     </Col>

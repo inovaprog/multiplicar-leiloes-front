@@ -1,22 +1,22 @@
-export class Imovel {
+export class Realty {
     constructor() {
         this.id
-        this.visivel
-        this.estado
-        this.cidade
-        this.bairro
-        this.rua
-        this.valor1
-        this.valor2
-        this.data1
-        this.data2
-        this.tipo
-        this.urlImg
-        this.fonte
-        this.valor_mercado
-        this.link
-        this.link_doc
-        this.analizado
+        this.isVisible
+        this.state
+        this.city
+        this.district
+        this.street
+        this.firstValue
+        this.secondValue
+        this.firstDate
+        this.secondDate
+        this.type
+        this.imgUrl
+        this.source
+        this.marketValue
+        this.sourceLink
+        this.linkDoc
+        this.analyzed
     }
 }
 

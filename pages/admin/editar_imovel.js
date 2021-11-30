@@ -1,17 +1,17 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import FormularioImovel from "../../components/formulario";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
 import { useEffect, useState } from "react";
 import Router from "next/router";
+import RealtyForm from "../components/realtyForm";
 
 export default function EditarImovel({ id }) {
-    const [imovel, setImovel] = useState(null);
+    const [realty, setRealty] = useState(null);
     const [carregando, setCarregando] = useState(true);
 
     useEffect(async () => {
-        const url = process.env.URL + `/admin/get_imovel?id=${id}`;
-        const token = window.localStorage.getItem("token");
+        const url = process.env.API_URL + `/realty/${id}`;
+        const token = window.localStorage.getItem("tokenAdmin");
         const res = await fetch(url,
             {
                 method: "GET",
@@ -22,13 +22,12 @@ export default function EditarImovel({ id }) {
             });
 
         var data = await res.json()
-        var imovel = data.data[0];
-        console.log(imovel)
-        if (!imovel) {
+        var realty = data.data[0];
+        if (!realty) {
             Router.push('/admin/adicionar_imovel')
         }
         else {
-            setImovel(imovel);
+            setRealty(realty);
             setCarregando(false);
         }
     }, []);
@@ -44,7 +43,7 @@ export default function EditarImovel({ id }) {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                <BarraSup nome={null} />
+                <TopBarAdmin nome={null} />
                 <Container>
                     <center>
                         {carregando ? <Spinner style={{ margin: 50 }} animation='border' /> : null}
@@ -64,11 +63,11 @@ export default function EditarImovel({ id }) {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin nome={null} />
             <Container>
                 <Row>
                     <Col>
-                        <FormularioImovel imovel={imovel} />
+                        <RealtyForm realty={realty} />
                     </Col>
                 </Row>
             </Container>

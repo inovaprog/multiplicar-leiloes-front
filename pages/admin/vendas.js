@@ -1,16 +1,16 @@
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import PlanilhaVendas from "../../components/planilha-vendas";
+import SalesSheet from "../components/salesSheet";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
 import { useEffect, useState } from "react";
 
-export default function LoginPage() {
-    const [vendas, setVendas] = useState([])
+export default function Sales() {
+    const [sales, setsales] = useState([])
     const [carregando, setCarregando] = useState(true)
 
     useEffect(async () => {
-        const token = window.localStorage.getItem('token')
-        const url = process.env.URL + "/vendas";
+        const token = window.localStorage.getItem('tokenAdmin')
+        const url = process.env.API_URL + "/sales";
         const res = await fetch(url,
             {
                 method: "GET",
@@ -22,7 +22,7 @@ export default function LoginPage() {
 
         var data = await res.json();
         console.log(data)
-        setVendas(data.data);
+        setsales(data.data);
         setCarregando(false)
     }, [])
 
@@ -37,7 +37,7 @@ export default function LoginPage() {
                         crossOrigin="anonymous"
                     />
                 </Head>
-                <BarraSup nome={null} />
+                <TopBarAdmin nome={null} />
                 <center><Spinner style={{ margin: 50 }} animation="border"></Spinner></center>
             </div>
         );
@@ -53,11 +53,11 @@ export default function LoginPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin />
             <Container>
                 <Row>
                     <Col>
-                        <PlanilhaVendas vendas={vendas} />
+                        <SalesSheet sales={sales} />
                     </Col>
                 </Row>
             </Container>

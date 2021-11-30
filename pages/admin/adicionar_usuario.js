@@ -1,9 +1,10 @@
 import { Container, Row, Col } from "react-bootstrap";
-import FormularioUsuario from "../../components/formulariousuario";
+import UserForm from "../components/userForm"
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
+import TopBarAdmin from "../components/topBarAdmin";
+import AddUserForm from "../components/addUserForm";
 
-export default function AdicionarUsuario() {
+export default function AddUser() {
     return (
         <div>
             <Head>
@@ -14,11 +15,11 @@ export default function AdicionarUsuario() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin  />
             <Container>
                 <Row>
                     <Col>
-                        <FormularioUsuario u={null} />
+                        <AddUserForm />
                     </Col>
                 </Row>
             </Container>

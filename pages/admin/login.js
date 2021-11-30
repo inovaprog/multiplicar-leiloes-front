@@ -1,9 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
-import BlocoLogin from "../../components/loginAdmin";
+import BlocoLogin from "../components/loginAdmin";
 import Head from "next/head";
-import BarraSup from "../../components/barraTopoAdmin";
-import { useEffect, useState } from "react";
-import { Router } from "next/router";
+import TopBarAdmin from "../components/topBarAdmin";
 
 export default function LoginPage() {
     return (
@@ -16,7 +14,7 @@ export default function LoginPage() {
                     crossOrigin="anonymous"
                 />
             </Head>
-            <BarraSup nome={null} />
+            <TopBarAdmin nome={null} />
             <Container>
                 <Row>
                     <Col lg={4}>
