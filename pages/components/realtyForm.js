@@ -26,7 +26,7 @@ export default function RealtyForm({ realty }) {
             try {
                 var image = file
                 const reader = new FileReader()
-                reader.readAsDataAPI_URL(image)
+                reader.readAsDataURL(image)
                 reader.onloadend = () => {
                     resolve(reader.result)
                 }
@@ -41,8 +41,8 @@ export default function RealtyForm({ realty }) {
         var fotos = []
         var show = []
         for (var image of imageList) {
-            await converte2b64(image).then((result) => { fotos.push(result.split(',')[1]) })
-            show.push(API_URL.createObjectAPI_URL(image))
+            await converte2b64(image).then((result) => {  fotos.push(result.split(',')[1]) })
+            show.push(URL.createObjectURL(image))
         }
         setImages(show)
         setFotos(fotos)
