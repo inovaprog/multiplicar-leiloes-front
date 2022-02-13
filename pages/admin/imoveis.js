@@ -155,6 +155,7 @@ export default function LoginPage() {
                                     <option value="biasi">Biasi</option>
                                     <option value="lanceJudicial">Lance Judicial</option>
                                     <option value="leilaoVip">Leilão Vip</option>
+                                    <option value="fidalgo">Fidalgo Leilões</option>
 
                                 </FormControl>
                             </Col>
