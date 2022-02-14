@@ -179,20 +179,20 @@ export default function RealtyForm({ realty }) {
                             <Row>
                                 <Col sm={4}>
                                     <Form.Group>
-                                        <Form.Label>district</Form.Label>
+                                        <Form.Label>Bairro</Form.Label>
                                         <Form.Control required defaultValue={realty.district} name='district'></Form.Control>
                                     </Form.Group>
                                 </Col>
 
                                 <Col sm={6}>
                                     <Form.Group>
-                                        <Form.Label>city</Form.Label>
+                                        <Form.Label>Cidade</Form.Label>
                                         <Form.Control required defaultValue={realty.city} name='city'></Form.Control>
                                     </Form.Group>
                                 </Col>
                                 <Col sm={2}>
                                     <Form.Group>
-                                        <Form.Label>state</Form.Label>
+                                        <Form.Label>Estado</Form.Label>
                                         <Form.Control required defaultValue={realty.state} name='state'></Form.Control>
                                     </Form.Group>
                                 </Col>
@@ -200,7 +200,7 @@ export default function RealtyForm({ realty }) {
                             <Row>
                                 <Col sm={7}>
                                     <Form.Group>
-                                        <Form.Label>type do imóvel</Form.Label>
+                                        <Form.Label>Tipo do imóvel</Form.Label>
                                         <Form.Control required defaultValue={realty.type} name='type'></Form.Control>
                                     </Form.Group>
                                 </Col>
