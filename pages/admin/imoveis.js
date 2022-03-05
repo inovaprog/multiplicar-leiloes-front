@@ -14,7 +14,7 @@ export default function LoginPage() {
         let target = window.localStorage.getItem("target");
         var localUrl = process.env.API_URL + "/realty?state=zzz";
         var apiUrl = window.localStorage.getItem("searchUrl") || localUrl;
-        const res = await fetch(apiUrl, 
+        const res = await fetch(apiUrl,
             {
                 method: "GET",
                 headers: {
@@ -148,7 +148,6 @@ export default function LoginPage() {
                                 <FormControl as="select" name="source">
                                     <option value=''>Selecione</option>
                                     <option value="zukerman">Zukerman</option>
-                                    <option value="caixa">Caixa</option>
                                     <option value="megaLeiloes">Mega Leilões</option>
                                     <option value="sodreSantoro">Sodre Santoro</option>
                                     <option value="frazao">Frazão</option>
