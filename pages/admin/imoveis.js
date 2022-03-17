@@ -156,8 +156,10 @@ export default function LoginPage() {
                                     <option value="leilaoVip">Leilão Vip</option>
                                     <option value="fidalgo">Fidalgo Leilões</option>
                                     <option value="webLeiloes">Web Leilões</option>
-                                    <option value="asgleiloes">ASG Leilões</option>
+                                    <option value="asgleiloes">AGS Leilões</option>
                                     <option value="d1lance">D1 Lance</option>
+                                    <option value="mgl">MGL Leilões</option>
+                                    <option value="grupoArremate">Grupo Arremate</option>
 
                                 </FormControl>
                             </Col>
