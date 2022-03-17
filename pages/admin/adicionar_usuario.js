@@ -1,5 +1,4 @@
 import { Container, Row, Col } from "react-bootstrap";
-import UserForm from "../components/userForm"
 import Head from "next/head";
 import TopBarAdmin from "../components/topBarAdmin";
 import AddUserForm from "../components/addUserForm";
